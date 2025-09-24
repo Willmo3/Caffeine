@@ -7,7 +7,7 @@
 #include <cstdint>
 #include <memory>
 #include <unordered_map>
-#include "NoiseSymbol.h"
+#include "noise_symbol.h"
 
 // Author: Will Morris
 // Credit to https://github.com/ogay/libaffa for cpp implementation tips.

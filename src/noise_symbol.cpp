@@ -1,4 +1,4 @@
-#include "NoiseSymbol.h"
+#include "noise_symbol.h"
 //
 // Created by will on 9/24/25.
 //
