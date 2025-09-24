@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+echo "installing and updating Waffine dependencies"
+# Move to project root
+cd ..
+
+parentname="$(basename "$(pwd)")"
+if [ $parentname != "Waffine" ] && [ $parentname != "waffine" ]; then
+  echo "Attempted setup from wrong directory -- move to Waffine/bin!"
+  exit 1
+fi
+
+# Dependencies contained in lib directory.
+if [ ! -d 'lib' ]; then
+  mkdir lib
+fi
+cd lib
+
+if [ ! -d 'Winterval' ]; then 
+  git clone "https://github.com/Willmo3/Winterval" 
+
+fi
+cd "Winterval"
+git pull
+cd ..

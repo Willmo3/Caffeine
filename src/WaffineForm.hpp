@@ -4,10 +4,9 @@
 
 #ifndef WAFFINE_WAFFINEFORM_H
 #define WAFFINE_WAFFINEFORM_H
-#include <cstdint>
-#include <memory>
 #include <unordered_map>
 #include "noise_symbol.h"
+#include "../lib/Winterval/src/Winterval.hpp"
 
 // Author: Will Morris
 // Credit to https://github.com/ogay/libaffa for cpp implementation tips.
@@ -53,12 +52,13 @@ public:
      */
     // TODO: from interval
     // TODO: from center, noise symbols.
-    WaffineForm(double center, const std::unordered_map<noise_symbol_t, double> &_starting_coeffs);
+    WaffineForm(double center, const std::unordered_map<noise_symbol_t, double> &starting_coeffs);
     ~WaffineForm();
 
     /*
      * Accessors
      */
+    Winterval to_interval() const;
     // TODO: to_interval
     // TODO: radius
 

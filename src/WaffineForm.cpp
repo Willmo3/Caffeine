@@ -5,6 +5,9 @@
 #include "WaffineForm.hpp"
 
 #include <algorithm>
+#include <iostream>
+#include <numeric>
+#include <ostream>
 
 /*
  * Constructors
@@ -19,4 +22,16 @@ WaffineForm::WaffineForm(double center, const std::unordered_map<noise_symbol_t,
 
 WaffineForm::~WaffineForm() {
     delete _coefficients;
+}
+
+/*
+ * Accessors
+ */
+Winterval WaffineForm::to_interval() const {
+    // Note: unable to do accumulation because of behavior with unordered maps.
+    double error_magnitude = 0;
+    for (auto pair : *_coefficients) {
+        error_magnitude += std::abs(pair.second);
+    }
+    return {_center - error_magnitude, _center + error_magnitude};
 }
