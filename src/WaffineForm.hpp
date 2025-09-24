@@ -53,7 +53,7 @@ public:
      */
     // TODO: from interval
     // TODO: from center, noise symbols.
-    WaffineForm(double center, std::unordered_map<noise_symbol_t, double> &_starting_coeffs);
+    WaffineForm(double center, const std::unordered_map<noise_symbol_t, double> &_starting_coeffs);
     ~WaffineForm();
 
     /*

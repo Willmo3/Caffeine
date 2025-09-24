@@ -9,7 +9,7 @@
 /*
  * Constructors
  */
-WaffineForm::WaffineForm(double center, std::unordered_map<noise_symbol_t, double> &starting_coeffs):
+WaffineForm::WaffineForm(double center, const std::unordered_map<noise_symbol_t, double> &starting_coeffs):
     _center(center), _coefficients(new std::unordered_map<noise_symbol_t, double>) {
     // Initialize this map with the explicitly defined starting values.
     for (auto pair : starting_coeffs) {
