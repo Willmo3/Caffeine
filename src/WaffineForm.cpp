@@ -6,8 +6,6 @@
 
 #include <algorithm>
 #include <iostream>
-#include <numeric>
-#include <ostream>
 
 /*
  * Constructors
