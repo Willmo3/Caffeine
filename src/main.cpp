@@ -11,7 +11,14 @@ void test_to_interval() {
     std::cout << WaffineForm(0, value).to_interval() << std::endl;
 }
 
+void test_radius() {
+    auto value = std::unordered_map<noise_symbol_t, double>();
+    value.insert(std::pair(new_noise_symbol(), 1));
+    value.insert(std::pair(new_noise_symbol(), -1));
+    std::cout << WaffineForm(0, value).radius() << std::endl;
+}
+
 int main() {
-    test_to_interval();
+    test_radius();
     return 0;
 }

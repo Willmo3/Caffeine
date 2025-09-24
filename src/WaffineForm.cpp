@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <numeric>
 
 /*
  * Constructors
@@ -32,4 +33,9 @@ Winterval WaffineForm::to_interval() const {
         error_magnitude += std::abs(pair.second);
     }
     return {_center - error_magnitude, _center + error_magnitude};
+}
+
+double WaffineForm::radius() const {
+    return std::accumulate(_coefficients->begin(), _coefficients->end(), 0.0,
+        [](auto sum, auto pair) { return sum + std::abs(pair.second); });
 }

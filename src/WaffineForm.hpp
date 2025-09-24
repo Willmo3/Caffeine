@@ -59,7 +59,7 @@ public:
      * Accessors
      */
     Winterval to_interval() const;
-    // TODO: to_interval
+    double radius() const;
     // TODO: radius
 
     /*
