@@ -3,3 +3,20 @@
 //
 
 #include "WaffineForm.hpp"
+
+#include <algorithm>
+
+/*
+ * Constructors
+ */
+WaffineForm::WaffineForm(double center, std::unordered_map<noise_symbol_t, double> &starting_coeffs):
+    _center(center), _coefficients(new std::unordered_map<noise_symbol_t, double>) {
+    // Initialize this map with the explicitly defined starting values.
+    for (auto pair : starting_coeffs) {
+        _coefficients->insert(pair);
+    }
+}
+
+WaffineForm::~WaffineForm() {
+    delete _coefficients;
+}
