@@ -56,7 +56,7 @@ public:
     // TODO: affine-affine div
 
     WaffineForm operator*(double other) const;
-    // TODO: scalar add
+    WaffineForm operator+(double other) const;
     // TODO: scalar divide
     // TODO: scalar subtract
 
