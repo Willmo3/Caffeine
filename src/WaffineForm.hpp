@@ -48,9 +48,14 @@ public:
      * Operations
      */
 
-    // NOTE: do we want to require references for these? Might be worth considering, even though we won't be able to perform nested additions.
-    // We might also consider changing the intervals to do this.
+    /*
+     * Unary operations
+     */
+    WaffineForm operator-() const;
 
+    /*
+     * Binary affine operations
+     */
     /**
      * @return Outer product of the error symbols and addition of centers, without addition of new error symbol.
      */

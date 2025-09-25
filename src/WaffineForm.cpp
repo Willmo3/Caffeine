@@ -32,6 +32,18 @@ WaffineForm WaffineForm::clone() const {
 }
 
 /*
+ * Unary operators
+ */
+WaffineForm WaffineForm::operator-() const {
+    auto value = clone();
+    value._center = -_center;
+    for (auto pair : _coefficients) {
+        value._coefficients[pair.first] *= -1;
+    }
+    return value;
+}
+
+/*
  * Affine arithmetic operators.
  */
 WaffineForm WaffineForm::operator+(const WaffineForm &other) const {
