@@ -2,6 +2,14 @@
 #include <ostream>
 
 #include "WaffineForm.hpp"
+void test_scalar_comparison() {
+    auto base = WaffineForm(Winterval(-2, 3));
+    std::cout << base.to_string() << std::endl;
+    std::cout << (base > -2) << std::endl;
+    std::cout << (base >= -2) << std::endl;
+    std::cout << (base < 3) << std::endl;
+    std::cout << (base <= 3) << std::endl;
+}
 void test_scalar_mult() {
     auto base = WaffineForm(Winterval(-2, 3));
     std::cout << base.to_string() << std::endl;
@@ -49,6 +57,6 @@ void test_radius() {
 }
 
 int main() {
-    test_scalar_div();
+    test_scalar_comparison();
     return 0;
 }

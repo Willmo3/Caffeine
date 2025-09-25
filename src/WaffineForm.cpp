@@ -32,7 +32,7 @@ WaffineForm WaffineForm::clone() const {
 }
 
 /*
- * Scalar operators
+ * Scalar arithmetic operators
  */
 WaffineForm WaffineForm::operator*(double other) const {
     auto value = clone();
@@ -60,6 +60,22 @@ WaffineForm WaffineForm::operator/(double other) const {
         return { 0, std::unordered_map<noise_symbol_t, double>() };
     }
     return operator*(1 / other);
+}
+
+/*
+ * Scalar comparison operators.
+ */
+bool WaffineForm::operator<(double other) const {
+    return to_interval() < other;
+}
+bool WaffineForm::operator>(double other) const {
+    return to_interval() > other;
+}
+bool WaffineForm::operator<=(double other) const {
+    return to_interval() <= other;
+}
+bool WaffineForm::operator>=(double other) const {
+    return to_interval() >= other;
 }
 
 /*

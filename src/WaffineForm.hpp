@@ -55,14 +55,21 @@ public:
     // TODO: affine-affine mult
     // TODO: affine-affine div
 
+    /*
+     * Scalar arithmetic operations
+     */
     WaffineForm operator*(double other) const;
     WaffineForm operator+(double other) const;
     WaffineForm operator-(double other) const;
     WaffineForm operator/(double other) const;
-
-    // TODO: scalar comparison operators -- needed for CFL checks.
-    // When comparing scalars, will need to convert to interval form -- that way, we move from the abstract domain to the concrete scalar domain.
-
+    /*
+     * Scalar comparison operations
+     * Note: these will be compared with the interval form of the system, as this reduces to concrete domain.
+     */
+    bool operator<(double other) const;
+    bool operator>(double other) const;
+    bool operator<=(double other) const;
+    bool operator>=(double other) const;
 private:
     /**
      * @return A deep copy of this affine form.
