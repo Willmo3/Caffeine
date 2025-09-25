@@ -49,6 +49,11 @@ WaffineForm WaffineForm::operator+(double other) const {
     // effectively, the polytope is simply being translated.
     return value;
 }
+WaffineForm WaffineForm::operator-(double other) const {
+    auto value = clone();
+    value._center -= other;
+    return value;
+}
 
 /*
  * Accessors
