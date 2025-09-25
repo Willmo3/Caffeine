@@ -55,7 +55,7 @@ public:
      * @return Outer product of the error symbols and addition of centers, without addition of new error symbol.
      */
     WaffineForm operator+(const WaffineForm &other) const;
-    // TODO: affine-affine sub
+    WaffineForm operator-(const WaffineForm &other) const;
     // TODO: affine-affine mult
     // TODO: affine-affine div
 

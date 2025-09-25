@@ -49,6 +49,20 @@ WaffineForm WaffineForm::operator+(const WaffineForm &other) const {
     // Since affine addition introduces no new error, we don't need to add a new value!
     return value;
 }
+WaffineForm WaffineForm::operator-(const WaffineForm &other) const {
+    auto value = clone();
+    value._center -= other._center;
+
+    for (auto pair : other._coefficients) {
+        if (!value._coefficients.contains(pair.first)) {
+            value._coefficients[pair.first] = -pair.second;
+        } else {
+            value._coefficients[pair.first] -= pair.second;
+        }
+    }
+
+    return value;
+}
 
 /*
  * Scalar arithmetic operators
