@@ -8,6 +8,14 @@ void test_scalar_mult() {
     auto next = base * 2;
     std::cout << next.to_string() << std::endl;
 }
+void test_scalar_div() {
+    auto base = WaffineForm(Winterval(-2, 3));
+    std::cout << base.to_string() << std::endl;
+    auto next = base / 2;
+    std::cout << next.to_string() << std::endl;
+    auto next_zero = base / 0;
+    std::cout << next_zero.to_string() << std::endl;
+}
 void test_scalar_add() {
     auto base = WaffineForm(Winterval(-2, 3));
     std::cout << base.to_string() << std::endl;
@@ -41,6 +49,6 @@ void test_radius() {
 }
 
 int main() {
-    test_scalar_sub();
+    test_scalar_div();
     return 0;
 }

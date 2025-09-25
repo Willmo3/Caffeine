@@ -58,7 +58,7 @@ public:
     WaffineForm operator*(double other) const;
     WaffineForm operator+(double other) const;
     WaffineForm operator-(double other) const;
-    // TODO: scalar divide
+    WaffineForm operator/(double other) const;
 
     // TODO: scalar comparison operators -- needed for CFL checks.
     // When comparing scalars, will need to convert to interval form -- that way, we move from the abstract domain to the concrete scalar domain.

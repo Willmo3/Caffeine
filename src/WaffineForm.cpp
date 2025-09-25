@@ -54,6 +54,13 @@ WaffineForm WaffineForm::operator-(double other) const {
     value._center -= other;
     return value;
 }
+WaffineForm WaffineForm::operator/(double other) const {
+    // Special case: 0. In affine forms, this will set all terms to 0, leading to a unit form.
+    if (other == 0) {
+        return { 0, std::unordered_map<noise_symbol_t, double>() };
+    }
+    return operator*(1 / other);
+}
 
 /*
  * Accessors
