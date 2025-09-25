@@ -5,6 +5,8 @@
 #ifndef WAFFINE_WAFFINEFORM_H
 #define WAFFINE_WAFFINEFORM_H
 #include <unordered_map>
+#include <vector>
+
 #include "noise_symbol.h"
 #include "../lib/Winterval/src/Winterval.hpp"
 
@@ -50,17 +52,25 @@ public:
     /*
      * Constructors
      */
-    // TODO: from interval
-    // TODO: from center, noise symbols.
+    /**
+     * @param center Real number center for affine form.
+     * @param starting_coeffs error coefficients to prime the affine form with
+     */
     WaffineForm(double center, const std::unordered_map<noise_symbol_t, double> &starting_coeffs);
+    /**
+     * @param interval Interval to construct center, error points from.
+     */
+    WaffineForm(const Winterval &interval);
     ~WaffineForm();
 
     /*
      * Accessors
      */
-    Winterval to_interval() const;
+    std::string to_string() const;
+    double center() const;
     double radius() const;
-    // TODO: radius
+    std::vector<double> noise_coefficients() const;
+    Winterval to_interval() const;
 
     /*
      * Operations

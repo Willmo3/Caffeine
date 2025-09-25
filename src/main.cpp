@@ -3,6 +3,10 @@
 
 #include "WaffineForm.hpp"
 
+void test_from_interval() {
+    std::cout << WaffineForm(Winterval(-1, 1)).to_string() << std::endl;
+}
+
 void test_to_interval() {
     // Construct an affine form centered at 0 with two noise symbols -- one with coeff 1, other with coeff 0.5.
     auto value = std::unordered_map<noise_symbol_t, double>();
@@ -19,6 +23,6 @@ void test_radius() {
 }
 
 int main() {
-    test_radius();
+    test_from_interval();
     return 0;
 }
