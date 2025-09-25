@@ -32,6 +32,25 @@ WaffineForm WaffineForm::clone() const {
 }
 
 /*
+ * Affine arithmetic operators.
+ */
+WaffineForm WaffineForm::operator+(const WaffineForm &other) const {
+    auto value = clone();
+    value._center += other._center;
+
+    for (auto pair : other._coefficients) {
+        // Outer product is union of both fields' error symbols. Common error symbols are added.
+        if (!value._coefficients.contains(pair.first)) {
+            value._coefficients[pair.first] = pair.second;
+        } else {
+            value._coefficients[pair.first] += pair.second;
+        }
+    }
+    // Since affine addition introduces no new error, we don't need to add a new value!
+    return value;
+}
+
+/*
  * Scalar arithmetic operators
  */
 WaffineForm WaffineForm::operator*(double other) const {

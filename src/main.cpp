@@ -2,6 +2,20 @@
 #include <ostream>
 
 #include "WaffineForm.hpp"
+/*
+ * Affine-Affine tests
+ */
+void test_affine_add() {
+    auto base = WaffineForm(Winterval(-2, 3));
+    auto next = base + WaffineForm(Winterval(4, 5));
+    std::cout << next.to_string() << std::endl;
+    // Check error symbol correspondence.
+    std::cout << (next + base).to_string() << std::endl;
+}
+
+/*
+ * Scalar tests
+ */
 void test_scalar_comparison() {
     auto base = WaffineForm(Winterval(-2, 3));
     std::cout << base.to_string() << std::endl;
@@ -57,6 +71,6 @@ void test_radius() {
 }
 
 int main() {
-    test_scalar_comparison();
+    test_affine_add();
     return 0;
 }
