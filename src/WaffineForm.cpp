@@ -75,6 +75,34 @@ WaffineForm WaffineForm::operator-(const WaffineForm &other) const {
 
     return value;
 }
+WaffineForm WaffineForm::operator*(const WaffineForm &right) const {
+    auto result = WaffineForm(this->_center * right._center, std::unordered_map<noise_symbol_t, double>());
+    // Affine form multiplication is an outer product.
+
+    // Perform product for all error symbols in rhs.
+    for (auto [symbol, coeff] : right._coefficients) {
+        if (!this->_coefficients.contains(symbol)) {
+            // Add missing error terms scaled by left's center.
+            result._coefficients[symbol] = this->_center * coeff;
+        } else if (this->_coefficients.contains(symbol)) {
+            auto a = this->_center * coeff;
+            auto b = right._center * this->_coefficients.at(symbol);
+            result._coefficients[symbol] = a + b;
+        }
+    }
+
+    // Now go and perform similar calculation for error symbols in lhs that weren't caught earlier.
+    for (auto [symbol, coeff] : this->_coefficients) {
+        if (!right._coefficients.contains(symbol)) {
+            result._coefficients[symbol] = right._center * coeff;
+        }
+    }
+
+    // Affine multiplication adds a noise symbol.
+    // For now, we add an error w/ coeff rad * rad, following Affapy impl.
+    result._coefficients[new_noise_symbol()] = radius() * right.radius();
+    return result;
+}
 
 /*
  * Scalar arithmetic operators

@@ -61,7 +61,7 @@ public:
      */
     WaffineForm operator+(const WaffineForm &other) const;
     WaffineForm operator-(const WaffineForm &other) const;
-    // TODO: affine-affine mult
+    WaffineForm operator*(const WaffineForm &right) const;
     // TODO: affine-affine div
 
     /*
