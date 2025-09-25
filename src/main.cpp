@@ -2,6 +2,12 @@
 #include <ostream>
 
 #include "WaffineForm.hpp"
+void test_scalar_mult() {
+    auto base = WaffineForm(Winterval(-2, 3));
+    std::cout << base.to_string() << std::endl;
+    auto next = base * 2;
+    std::cout << next.to_string() << std::endl;
+}
 
 void test_from_interval() {
     std::cout << WaffineForm(Winterval(-1, 1)).to_string() << std::endl;
@@ -23,6 +29,6 @@ void test_radius() {
 }
 
 int main() {
-    test_from_interval();
+    test_scalar_mult();
     return 0;
 }

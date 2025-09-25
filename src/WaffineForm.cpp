@@ -4,29 +4,43 @@
 
 #include "WaffineForm.hpp"
 
-#include <algorithm>
+#include <cstring>
 #include <format>
 #include <iostream>
 #include <numeric>
+#include <ranges>
 #include <vector>
 
 /*
  * Constructors
  */
 WaffineForm::WaffineForm(double center, const std::unordered_map<noise_symbol_t, double> &starting_coeffs):
-    _center(center), _coefficients(new std::unordered_map<noise_symbol_t, double>) {
+    _center(center), _coefficients(std::unordered_map<noise_symbol_t, double>()) {
     // Initialize this map with the explicitly defined starting values.
     for (auto pair : starting_coeffs) {
-        _coefficients->insert(pair);
+        _coefficients.insert(pair);
     }
 }
+
 WaffineForm::WaffineForm(const Winterval& interval): _center((interval.min() + interval.max()) / 2),
-    _coefficients(new std::unordered_map<noise_symbol_t, double>) {
-    _coefficients->insert(std::pair(new_noise_symbol(), (interval.min() - interval.max()) / 2));
+    _coefficients(std::unordered_map<noise_symbol_t, double>()) {
+    _coefficients.insert(std::pair(new_noise_symbol(), (interval.min() - interval.max()) / 2));
+}
+// Internal clone constructor
+WaffineForm WaffineForm::clone() const {
+    return { this->_center, std::unordered_map(this->_coefficients) };
 }
 
-WaffineForm::~WaffineForm() {
-    delete _coefficients;
+/*
+ * Scalar operators
+ */
+WaffineForm WaffineForm::operator*(double other) const {
+    auto value = clone();
+    value._center *= other;
+    for (auto pair : _coefficients) {
+        value._coefficients[pair.first] *= other;
+    }
+    return value;
 }
 
 /*
@@ -53,20 +67,20 @@ double WaffineForm::center() const {
 }
 
 double WaffineForm::radius() const {
-    return std::accumulate(_coefficients->begin(), _coefficients->end(), 0.0,
+    return std::accumulate(_coefficients.begin(), _coefficients.end(), 0.0,
         [](auto sum, auto pair) { return sum + std::abs(pair.second); });
 }
 
 std::vector<double> WaffineForm::noise_coefficients() const {
-    return std::accumulate(_coefficients->begin(), _coefficients->end(), std::vector<double>(),
+    return std::accumulate(_coefficients.begin(), _coefficients.end(), std::vector<double>(),
         [](auto coeffs, auto pair) { coeffs.push_back(pair.second); return coeffs; });
 }
 
 Winterval WaffineForm::to_interval() const {
     // Note: unable to do accumulation because of behavior with unordered maps.
     double error_magnitude = 0;
-    for (auto pair : *_coefficients) {
-        error_magnitude += std::abs(pair.second);
+    for (auto coeff: _coefficients | std::views::values) {
+        error_magnitude += std::abs(coeff);
     }
     return {_center - error_magnitude, _center + error_magnitude};
 }

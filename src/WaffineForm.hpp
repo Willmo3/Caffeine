@@ -14,33 +14,6 @@
 // Credit to https://github.com/ogay/libaffa for cpp implementation tips.
 // Credit to https://github.com/vanweric/Affapy for approximation strategies.
 
-/*
-
-We may want to convert to a zonotope, but for now, let's add support for generic affine intervals
-Conceptual understanding of difference:
-- Center represents center of zonotope
-- Noise symbols represent basis lines
-
-Then sum is defined as minkowski sum of these lines.
-
-We can construct with two things.
-- Interval [a, b], centered at (a + b) / 2 and with error term (a - b) / 2.
-- Center and error term list
-
-Must support:
-- Conversion to interval
-    - This is how we can print.
-- Exact affine operations
-    - Affine addition
-    - Affine subtraction
-    - Constant multiplication, subtraction, addition, division
-- Affine approximations for other operations required for Numeric concept.
-
-- Affine form should support a radius operation for error computation
-    - this will be introduced as a new noise symbol.
-
- */
-
 /**
  * Library for high performance affine form computations.
  * Affine forms are a symbolic representation of a
@@ -60,8 +33,7 @@ public:
     /**
      * @param interval Interval to construct center, error points from.
      */
-    WaffineForm(const Winterval &interval);
-    ~WaffineForm();
+    explicit WaffineForm(const Winterval &interval);
 
     /*
      * Accessors
@@ -76,26 +48,35 @@ public:
      * Operations
      */
 
+    // NOTE: do we want to require references for these? Might be worth considering, even though we won't be able to perform nested additions.
+    // We might also consider changing the intervals to do this.
     // TODO: affine-affine add
     // TODO: affine-affine sub
     // TODO: affine-affine mult
     // TODO: affine-affine div
 
-    // TODO: scalar multiply
+    WaffineForm operator*(double other) const;
     // TODO: scalar add
     // TODO: scalar divide
     // TODO: scalar subtract
 
-private:
+    // TODO: scalar comparison operators -- needed for CFL checks.
+    // When comparing scalars, will need to convert to interval form -- that way, we move from the abstract domain to the concrete scalar domain.
 
+private:
+    /**
+     * @return A deep copy of this affine form.
+     */
+    WaffineForm clone() const;
     /**
      * Center point for affine shape.
      */
     double _center;
     /**
      * Map of noise symbols to their coefficients.
+     * Note that values will be heap allocated, so this data structure has a fixed size.
      */
-    std::unordered_map<noise_symbol_t, double> *_coefficients;
+    std::unordered_map<noise_symbol_t, double> _coefficients;
 };
 
 
