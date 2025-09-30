@@ -57,12 +57,21 @@ public:
      * Binary affine operations
      */
     /**
-     * @return Outer product of the error symbols and addition of centers, without addition of new error symbol.
+     * Additive union of error symbols.
      */
     WaffineForm operator+(const WaffineForm &other) const;
+    /**
+     * Subtractive union of error symbols.
+     */
     WaffineForm operator-(const WaffineForm &other) const;
+    /**
+     * Outer product of real values with others' errors. Additional error symbol added to account for loss of precision.
+     */
     WaffineForm operator*(const WaffineForm &right) const;
-    // TODO: affine-affine div
+    /**
+     * Product of this affine form and the inverse of the rhs.
+     */
+    WaffineForm operator/(const WaffineForm &right) const;
 
     /*
      * Scalar arithmetic operations
@@ -80,10 +89,41 @@ public:
     bool operator<=(double other) const;
     bool operator>=(double other) const;
 private:
+    /*
+     * Non-affine function approximator helpers.
+     */
+
+    /**
+     * Construct an affine approximation of this form applied to some non-affine function.
+     * Form: (x_hat = alpha * x0 + zeta) + sum over errors (alpha * x_i * epsilon_i) + delta * epsilon_k
+     * Generalizes first-order Chebyshev form alpha_x + beta (although we don't always use Chebyshev)
+     * Implementation derived from Affapy.
+     *
+     * @param alpha Scalar multiplier for each error term.
+     * @param zeta Constant offset for center term
+     * @param delta Coefficient for new error term.
+     * @return The affine approximation.
+     */
+    WaffineForm approximate_affine_form(double alpha, double zeta, double delta) const;
+    /**
+     * @return A new affine form representing the inverse of this form.
+     * Approximate with mini-range.
+     */
+    WaffineForm inv() const;
+
+    /*
+     * Assorted helpers.
+     */
+
     /**
      * @return A deep copy of this affine form.
      */
     WaffineForm clone() const;
+
+    /*
+     * Fields
+     */
+
     /**
      * Center point for affine shape.
      */

@@ -4,9 +4,11 @@
 
 #include "WaffineForm.hpp"
 
+#include <cmath>
 #include <cstring>
 #include <format>
 #include <iostream>
+#include <map>
 #include <numeric>
 #include <ranges>
 #include <vector>
@@ -25,10 +27,6 @@ WaffineForm::WaffineForm(double center, const std::unordered_map<noise_symbol_t,
 WaffineForm::WaffineForm(const Winterval& interval): _center((interval.min() + interval.max()) / 2),
     _coefficients(std::unordered_map<noise_symbol_t, double>()) {
     _coefficients.insert(std::pair(new_noise_symbol(), (interval.min() - interval.max()) / 2));
-}
-// Internal clone constructor
-WaffineForm WaffineForm::clone() const {
-    return { this->_center, std::unordered_map(this->_coefficients) };
 }
 
 /*
@@ -100,8 +98,11 @@ WaffineForm WaffineForm::operator*(const WaffineForm &right) const {
 
     // Affine multiplication adds a noise symbol.
     // For now, we add an error w/ coeff rad * rad, following Affapy impl.
-    result._coefficients[new_noise_symbol()] = radius() * right.radius();
+    result._coefficients[new_noise_symbol()] = this->radius() * right.radius();
     return result;
+}
+WaffineForm WaffineForm::operator/(const WaffineForm &right) const {
+    return operator*(right.inv());
 }
 
 /*
@@ -110,8 +111,8 @@ WaffineForm WaffineForm::operator*(const WaffineForm &right) const {
 WaffineForm WaffineForm::operator*(double other) const {
     auto value = clone();
     value._center *= other;
-    for (auto pair : _coefficients) {
-        value._coefficients[pair.first] *= other;
+    for (const auto symbol: _coefficients | std::views::keys) {
+        value._coefficients[symbol] *= other;
     }
     return value;
 }
@@ -192,3 +193,67 @@ Winterval WaffineForm::to_interval() const {
     }
     return {_center - error_magnitude, _center + error_magnitude};
 }
+
+/*
+ * Non-affine approximators
+ */
+
+/*
+
+Approximating a non-affine form follows a general pattern:
+- Create a new center with new center alpha * old_center + zeta
+- Scale each error term by alpha
+- Add a new error term with coeff delta.
+
+*/
+WaffineForm WaffineForm::approximate_affine_form(double alpha, double zeta, double delta) const {
+    auto center = alpha * _center + zeta;
+
+    auto map = std::unordered_map<noise_symbol_t, double>();
+    for (auto [symbol, coeff] : _coefficients) {
+        auto new_value = alpha * coeff;
+        map.insert({symbol, new_value});
+    }
+
+    map.insert({new_noise_symbol(), delta});
+    return { center, map };
+}
+
+/*
+ * Use mini-range approximation rather than standard Chebyshev.
+ * Credit: libaffa
+ */
+WaffineForm WaffineForm::inv() const {
+    auto interval = this->to_interval();
+    if (interval.contains(0)) {
+        // If interval contains 0, infinity will be in this interval, or the interval will just be [0, 0].
+        // The blowup to infinity wipes away the dependence of the variables and adds a term of unlimited magnitude.
+        // We will hence construct a new affine form from the corresponding interval, since no dependencence can be preserved.
+        return WaffineForm(this->to_interval());
+    }
+
+    auto a = interval.abs().min();
+    auto b = interval.abs().max();
+    // Derivative of 1/x: -1/x^2. Notice: series defined over first derivative.
+    auto alpha = -1 / std::pow(b, 2);
+
+    auto range = Winterval((1/a - alpha * a), 2 / b);
+    auto zeta = range.mid();
+
+    // if negative value included in interval, flip result.
+    if (interval.min() < 0) {
+        zeta = -zeta;
+    }
+
+    // New noise term will be radius of mini-range interval.
+    return approximate_affine_form(alpha, zeta, range.radius());
+}
+
+/*
+ * Internal helpers
+ */
+// Internal clone constructor
+WaffineForm WaffineForm::clone() const {
+    return { this->_center, std::unordered_map(this->_coefficients) };
+}
+

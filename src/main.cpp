@@ -37,7 +37,14 @@ void test_affine_mult() {
     auto next = base * other;
     std::cout << next.to_string() << std::endl;
 }
-
+void test_affine_div() {
+    auto base = WaffineForm(Winterval(-2, 3));
+    std::cout << base.to_string() << std::endl;
+    auto other = WaffineForm(Winterval(4, 5));
+    std::cout << other.to_string() << std::endl;
+    auto next = base / other;
+    std::cout << next.to_string() << std::endl;
+}
 
 /*
  * Scalar tests
@@ -97,6 +104,6 @@ void test_radius() {
 }
 
 int main() {
-    test_affine_mult();
+    test_affine_div();
     return 0;
 }
