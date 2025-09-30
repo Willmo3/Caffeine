@@ -41,7 +41,12 @@ public:
     std::string to_string() const;
     double center() const;
     double radius() const;
-    std::vector<double> noise_coefficients() const;
+    /**
+     *
+     * @param symbol Symbol to get coefficient of.
+     * @return the coefficient if noise symbol represented in this affine form, NaN otherwise.
+     */
+    double coeff_of(noise_symbol_t symbol) const;
     Winterval to_interval() const;
 
     /*

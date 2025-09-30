@@ -180,9 +180,11 @@ double WaffineForm::radius() const {
         [](auto sum, auto pair) { return sum + std::abs(pair.second); });
 }
 
-std::vector<double> WaffineForm::noise_coefficients() const {
-    return std::accumulate(_coefficients.begin(), _coefficients.end(), std::vector<double>(),
-        [](auto coeffs, auto pair) { coeffs.push_back(pair.second); return coeffs; });
+double WaffineForm::coeff_of(noise_symbol_t symbol) const {
+    if (_coefficients.contains(symbol)) {
+        return _coefficients.at(symbol);
+    }
+    return NAN;
 }
 
 Winterval WaffineForm::to_interval() const {

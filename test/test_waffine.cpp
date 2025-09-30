@@ -8,7 +8,14 @@
 
 TEST(waffine, negation) {
     auto value = -WaffineForm(Winterval(-2, 3));
-    ASSERT_NEAR(-0.5, value.center(), 0.001);
-    ASSERT_NEAR(2.5, value.radius(), 0.001);
-    ASSERT_EQ(2.5, value.noise_coefficients()[0]);
+    ASSERT_NEAR(value.center(), -0.5, 0.001);
+    ASSERT_NEAR(value.radius(), 2.5, 0.001);
+    ASSERT_EQ(value.coeff_of(0), 2.5);
+}
+
+TEST(waffine, add) {
+    auto base = WaffineForm(Winterval(-2, 3));
+    auto next = base + WaffineForm(Winterval(4, 5));
+    ASSERT_NEAR(next.center(), 5, 0.001);
+    ASSERT_NEAR(next.radius(), 3, 0.001);
 }
