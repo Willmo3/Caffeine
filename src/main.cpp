@@ -7,14 +7,6 @@
  * Affine-Affine tests
  */
 
-void test_affine_sub() {
-    auto base = WaffineForm(Winterval(-2, 3));
-    auto next = base - WaffineForm(Winterval(4, 5));
-    std::cout << next.to_string() << std::endl;
-    // Check error symbol correspondence.
-    // Notice: because we track the source of error, when we remove the base interval, we get the negation of next!
-    std::cout << (next - base).to_string() << std::endl;
-}
 void test_affine_mult() {
     auto base = WaffineForm(Winterval(-2, 3));
     std::cout << base.to_string() << std::endl;
@@ -90,6 +82,6 @@ void test_radius() {
 }
 
 int main() {
-    // test_affine_add();
+    // test_affine_sub();
     return 0;
 }
