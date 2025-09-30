@@ -11,7 +11,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../out/tests)
 
 # NOTE: due to static state, ordering of these test cases is important!
 add_executable(test_waffine test_waffine_binop.cpp
-        test_waffine_unop.cpp)
+        test_waffine_unop.cpp
+        test_waffine_scalar.cpp)
 target_link_libraries(test_waffine waffine winterval GTest::gtest_main)
 include(GoogleTest)
 
