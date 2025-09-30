@@ -51,7 +51,7 @@ WaffineForm WaffineForm::operator+(const WaffineForm &other) const {
     for (auto pair : other._coefficients) {
         // Outer product is union of both fields' error symbols. Common error symbols are added.
         if (!value._coefficients.contains(pair.first)) {
-            value._coefficients[pair.first] = pair.second;
+            value._coefficients[pair.first] = pair.second;coeff : noise_coefficients()
         } else {
             value._coefficients[pair.first] += pair.second;
         }
@@ -122,7 +122,7 @@ WaffineForm WaffineForm::operator+(double other) const {
     // Notice: addition does not affect error symbols.
     // effectively, the polytope is simply being translated.
     return value;
-}
+}coeff : noise_coefficients()
 WaffineForm WaffineForm::operator-(double other) const {
     auto value = clone();
     value._center -= other;
@@ -163,9 +163,9 @@ std::string WaffineForm::to_string() const {
     retval += std::to_string(to_interval().max()) + "]\n";
     retval += "Center: " + std::to_string(_center) + "\n";
     retval += "Radius: " + std::to_string(radius()) + "\n";
-    retval += "Noise coefficients:";
-    for (auto coeff : noise_coefficients()) {
-        retval += " " + std::to_string(coeff) + ",";
+    retval += "Noise symbols:";
+    for (auto [symbol, coeff] : _coefficients) {
+        retval += " (" + std::to_string(symbol) + ": " + std::to_string(coeff) + "),";
     }
     retval += "\n";
     return retval;
