@@ -51,7 +51,7 @@ WaffineForm WaffineForm::operator+(const WaffineForm &other) const {
     for (auto pair : other._coefficients) {
         // Outer product is union of both fields' error symbols. Common error symbols are added.
         if (!value._coefficients.contains(pair.first)) {
-            value._coefficients[pair.first] = pair.second;coeff : noise_coefficients()
+            value._coefficients[pair.first] = pair.second;
         } else {
             value._coefficients[pair.first] += pair.second;
         }

@@ -4,14 +4,6 @@
 #include "WaffineForm.hpp"
 
 /*
- * Unary affine tests
- */
-void test_affine_neg() {
-    auto base = WaffineForm(Winterval(-2, 3));
-    std::cout << (-base).to_string() << std::endl;
-}
-
-/*
  * Affine-Affine tests
  */
 void test_affine_add() {
@@ -104,6 +96,6 @@ void test_radius() {
 }
 
 int main() {
-    test_affine_div();
+    test_affine_neg();
     return 0;
 }
