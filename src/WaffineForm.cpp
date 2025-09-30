@@ -122,7 +122,7 @@ WaffineForm WaffineForm::operator+(double other) const {
     // Notice: addition does not affect error symbols.
     // effectively, the polytope is simply being translated.
     return value;
-}coeff : noise_coefficients()
+}
 WaffineForm WaffineForm::operator-(double other) const {
     auto value = clone();
     value._center -= other;
