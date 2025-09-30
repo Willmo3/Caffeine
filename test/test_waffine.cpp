@@ -32,3 +32,13 @@ TEST(waffine, sub) {
     ASSERT_NEAR(next.coeff_of(3), 0, 0.001);
     ASSERT_NEAR(next.coeff_of(4), 0.5, 0.001);
 }
+
+TEST(waffine, mult) {
+    auto base = WaffineForm(Winterval(-2, 3));
+    auto next = base * WaffineForm(Winterval(4, 5));
+    ASSERT_NEAR(next.center(), 2.25, 0.001);
+    ASSERT_NEAR(next.radius(), 12.75, 0.001);
+    ASSERT_NEAR(next.coeff_of(5), -11.25, 0.001);
+    ASSERT_NEAR(next.coeff_of(6), -0.25, 0.001);
+    ASSERT_NEAR(next.coeff_of(7), 1.25, 0.001);
+}

@@ -6,15 +6,6 @@
 /*
  * Affine-Affine tests
  */
-
-void test_affine_mult() {
-    auto base = WaffineForm(Winterval(-2, 3));
-    std::cout << base.to_string() << std::endl;
-    auto other = WaffineForm(Winterval(4, 5));
-    std::cout << other.to_string() << std::endl;
-    auto next = base * other;
-    std::cout << next.to_string() << std::endl;
-}
 void test_affine_div() {
     auto base = WaffineForm(Winterval(-2, 3));
     std::cout << base.to_string() << std::endl;
@@ -82,6 +73,6 @@ void test_radius() {
 }
 
 int main() {
-    // test_affine_sub();
+    // test_affine_mult();
     return 0;
 }
