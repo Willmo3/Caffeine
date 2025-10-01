@@ -35,8 +35,8 @@ WaffineForm::WaffineForm(const Winterval& interval): _center((interval.min() + i
 WaffineForm WaffineForm::operator-() const {
     auto value = clone();
     value._center = -_center;
-    for (auto pair : _coefficients) {
-        value._coefficients[pair.first] *= -1;
+    for (const auto symbol: _coefficients | std::views::keys) {
+        value._coefficients[symbol] *= -1;
     }
     return value;
 }
@@ -48,12 +48,12 @@ WaffineForm WaffineForm::operator+(const WaffineForm &other) const {
     auto value = clone();
     value._center += other._center;
 
-    for (auto pair : other._coefficients) {
+    for (auto [symbol, coeff] : other._coefficients) {
         // Outer product is union of both fields' error symbols. Common error symbols are added.
-        if (!value._coefficients.contains(pair.first)) {
-            value._coefficients[pair.first] = pair.second;
+        if (!value._coefficients.contains(symbol)) {
+            value._coefficients[symbol] = coeff;
         } else {
-            value._coefficients[pair.first] += pair.second;
+            value._coefficients[symbol] += coeff;
         }
     }
     // Since affine addition introduces no new error, we don't need to add a new value!
@@ -63,11 +63,11 @@ WaffineForm WaffineForm::operator-(const WaffineForm &other) const {
     auto value = clone();
     value._center -= other._center;
 
-    for (auto pair : other._coefficients) {
-        if (!value._coefficients.contains(pair.first)) {
-            value._coefficients[pair.first] = -pair.second;
+    for (auto [symbol, coeff] : other._coefficients) {
+        if (!value._coefficients.contains(symbol)) {
+            value._coefficients[symbol] = -coeff;
         } else {
-            value._coefficients[pair.first] -= pair.second;
+            value._coefficients[symbol] -= coeff;
         }
     }
 
