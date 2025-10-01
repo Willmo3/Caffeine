@@ -153,6 +153,33 @@ WaffineForm WaffineForm::operator/(double other) const {
     }
     return operator*(1 / other);
 }
+WaffineForm WaffineForm::pow(uint32_t power) const {
+    // TODO: as we adapt the numeric API, we could switch this to use negative numbers w/ the inverse strategy.
+    if (power == 0) {
+        // Our implementation always returns affine forms, even if the power is 0 -- in this case, an exact affine form.
+        return { 1, std::unordered_map<noise_symbol_t, double>() };
+    }
+
+    auto odd_power = power > 1 && power % 2 == 1;
+    if (odd_power) {
+        // Can descend logarithmically given an even power. We will do the extra mult later.
+        power -= 1;
+    }
+
+    auto result = clone();
+    while (power > 1) {
+        // Perform multiply and half power each time until down to pow 1, unit operation.
+        // Insight: squaring intermediate results allows our quick logarithmic descent.
+        result = result * result;
+        power /= 2;
+    }
+
+    if (odd_power) {
+        // Now perform that last standard multiplication we saved.
+        return result * *this;
+    }
+    return result;
+}
 
 /*
  * Scalar comparison operators.

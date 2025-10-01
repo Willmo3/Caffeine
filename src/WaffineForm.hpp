@@ -80,6 +80,11 @@ public:
      */
     WaffineForm operator/(const WaffineForm &right) const;
 
+    /**
+     * @return The affine form multiplied by itself power times.
+     */
+    WaffineForm pow(uint32_t power) const;
+
     /*
      * Scalar arithmetic operations
      */

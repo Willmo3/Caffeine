@@ -28,3 +28,9 @@ TEST(waffine_unop, abs) {
     ASSERT_NEAR(value.center(), 0.25, 0.001);
     ASSERT_NEAR(value.radius(), 0.75, 0.001);
 }
+
+TEST(waffine_unop, pow) {
+    auto value = WaffineForm(Winterval(1, 2)).pow(3);
+    ASSERT_NEAR(value.center(), 3.375, 0.001);
+    ASSERT_NEAR(value.radius(), 4.625, 0.001);
+}
