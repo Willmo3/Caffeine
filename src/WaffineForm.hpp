@@ -149,7 +149,7 @@ private:
 
 // Using reference to remove redundant copy.
 // TODO: reflect this change elsewhere.
-std::ostream& operator<<(std::ostream& os, WaffineForm &rhs);
+std::ostream& operator<<(std::ostream& os, WaffineForm rhs);
 
 
 #endif //WAFFINE_WAFFINEFORM_H

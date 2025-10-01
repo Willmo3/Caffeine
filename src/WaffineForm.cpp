@@ -307,7 +307,7 @@ WaffineForm WaffineForm::clone() const {
 /*
  * Associated operators.
  */
-std::ostream& operator<<(std::ostream& os, const WaffineForm &rhs) {
+std::ostream& operator<<(std::ostream& os, WaffineForm rhs) {
     os << rhs.to_string();
     return os;
 }
