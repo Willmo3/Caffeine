@@ -58,6 +58,8 @@ public:
      */
     WaffineForm operator-() const;
 
+    WaffineForm abs() const;
+
     /*
      * Binary affine operations
      */

@@ -40,6 +40,24 @@ WaffineForm WaffineForm::operator-() const {
     }
     return value;
 }
+WaffineForm WaffineForm::abs() const {
+    // Strictly negative
+    if (this->operator<(0)) {
+        return this->operator*(-1);
+    }
+    // Strictly positive
+    if (this->operator>(0)) {
+        return clone();
+    }
+    // Straddles
+    // Return abs(this.center / 2) + sum (this.noise / 2)
+    auto value = clone();
+    value._center = std::abs(value._center / 2);
+    for (auto symbol: value._coefficients | std::views::keys) {
+        value._coefficients[symbol] /= 2;
+    }
+    return value;
+}
 
 /*
  * Affine arithmetic operators.

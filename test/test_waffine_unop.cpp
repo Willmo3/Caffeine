@@ -14,3 +14,17 @@ TEST(waffine_unop, negation) {
     ASSERT_NEAR(value.center(), -0.5, 0.001);
     ASSERT_NEAR(value.radius(), 2.5, 0.001);
 }
+
+TEST(waffine_unop, abs) {
+    auto value = WaffineForm(Winterval(1, 2)).abs();
+    ASSERT_NEAR(value.center(), 1.5, 0.001);
+    ASSERT_NEAR(value.radius(), 0.5, 0.001);
+
+    value = WaffineForm(Winterval(-2, -1)).abs();
+    ASSERT_NEAR(value.center(), 1.5, 0.001);
+    ASSERT_NEAR(value.radius(), 0.5, 0.001);
+
+    value = WaffineForm(Winterval(-1, 2)).abs();
+    ASSERT_NEAR(value.center(), 0.25, 0.001);
+    ASSERT_NEAR(value.radius(), 0.75, 0.001);
+}
