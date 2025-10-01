@@ -147,5 +147,9 @@ private:
     std::unordered_map<noise_symbol_t, double> _coefficients;
 };
 
+// Using reference to remove redundant copy.
+// TODO: reflect this change elsewhere.
+std::ostream& operator<<(std::ostream& os, WaffineForm &rhs);
+
 
 #endif //WAFFINE_WAFFINEFORM_H

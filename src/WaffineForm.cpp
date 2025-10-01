@@ -304,3 +304,10 @@ WaffineForm WaffineForm::clone() const {
     return { this->_center, std::unordered_map(this->_coefficients) };
 }
 
+/*
+ * Associated operators.
+ */
+std::ostream& operator<<(std::ostream& os, const WaffineForm &rhs) {
+    os << rhs.to_string();
+    return os;
+}
