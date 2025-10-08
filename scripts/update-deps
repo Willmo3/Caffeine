@@ -12,14 +12,16 @@ fi
 
 # Dependencies contained in lib directory.
 if [ ! -d 'lib' ]; then
-  mkdir lib
+  echo "lib directory not present, quitting"
+  exit 1
 fi
 cd lib
 
-if [ ! -d 'Winterval' ]; then 
-  git clone "https://github.com/Willmo3/Winterval" 
-
+# redownload winterval files
+if [ -d 'Winterval' ]; then 
+  rm -r 'Winterval'
 fi
-cd "Winterval"
-git pull
+wget 'https://github.com/Willmo3/Winterval/raw/refs/heads/main/release/winterval-v0.0.2.tar.gz'
+tar -xzf 'winterval-v0.0.2.tar.gz' && rm 'winterval-v0.0.2.tar.gz'
+
 cd ..
