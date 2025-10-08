@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "noise_symbol.h"
-#include "../lib/Winterval/src/Winterval.hpp"
+#include "../lib/Winterval/Winterval.hpp"
 
 // Author: Will Morris
 // Credit to https://github.com/ogay/libaffa for cpp implementation tips.
