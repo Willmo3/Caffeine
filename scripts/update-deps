@@ -21,7 +21,13 @@ cd lib
 if [ -d 'Winterval' ]; then 
   rm -r 'Winterval'
 fi
-wget 'https://github.com/Willmo3/Winterval/raw/refs/heads/main/release/winterval-v0.0.2.tar.gz'
-tar -xzf 'winterval-v0.0.2.tar.gz' && rm 'winterval-v0.0.2.tar.gz'
+wget 'https://github.com/Willmo3/Winterval/raw/refs/heads/main/release/winterval-v0.0.5.tar.gz'
+tar -xzf 'winterval-v0.0.5.tar.gz' && rm 'winterval-v0.0.5.tar.gz'
+
+# download cereal headers.
+if [[ -d "cereal" ]]; then
+  rm -r "cereal"
+fi
+wget "https://github.com/USCiLab/cereal/archive/v1.3.2.tar.gz" && tar -xf "v1.3.2.tar.gz" && mv "cereal-1.3.2/include/cereal/" "." && rm -r cereal-1.3.2 v1.3.2.tar.gz
 
 cd ..
