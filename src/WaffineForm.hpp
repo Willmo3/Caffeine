@@ -9,6 +9,9 @@
 
 #include "noise_symbol.h"
 #include "../lib/Winterval/Winterval.hpp"
+// Note: cereal root must be in the build path
+#include "cereal/archives/json.hpp"
+#include "cereal/types/unordered_map.hpp"
 
 // Author: Will Morris
 // Credit to https://github.com/ogay/libaffa for cpp implementation tips.
@@ -100,6 +103,16 @@ public:
     bool operator>(double other) const;
     bool operator<=(double other) const;
     bool operator>=(double other) const;
+
+    /*
+     * Serialization helpers.
+     */
+    template<class Archive>
+    void serialize(Archive & archive)
+    {
+        archive( _center, _coefficients );
+    }
+
 private:
     /*
      * Non-affine function approximator helpers.
