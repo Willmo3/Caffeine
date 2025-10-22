@@ -6,3 +6,5 @@ cmake-build-debug-system
 out
 lib/Winterval
 lib/cereal
+
+release/Waffine
