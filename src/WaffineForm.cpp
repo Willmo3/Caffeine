@@ -284,7 +284,7 @@ WaffineForm WaffineForm::inv() const {
     // Derivative of 1/x: -1/x^2. Notice: series defined over first derivative.
     auto alpha = -1 / std::pow(b, 2);
 
-    auto range = Winterval((1/a - alpha * a), 2 / b);
+    auto range = Winterval(1/a - alpha * a, 2 / b);
     auto zeta = range.mid();
 
     // if negative value included in interval, flip result.

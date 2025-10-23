@@ -116,7 +116,7 @@ public:
     template<class Archive>
     void serialize(Archive & archive)
     {
-        archive( _center, _coefficients );
+        archive( cereal::make_nvp("center", _center), cereal::make_nvp("noise_symbols", _coefficients) );
     }
 
     /*
