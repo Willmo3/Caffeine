@@ -299,7 +299,7 @@ WaffineForm WaffineForm::inv() const {
 /*
  * Public helpers
  */
-bool WaffineForm::operator==(const WaffineForm &other) {
+bool WaffineForm::operator==(const WaffineForm &other) const {
     if (this->_center != other._center) {
         return false;
     }

@@ -130,7 +130,7 @@ public:
      * @param other Waffine form to compare against.
      * @return Whether the two forms are exactly equal.
      */
-    bool operator==(const WaffineForm &other);
+    bool operator==(const WaffineForm &other) const;
 
 private:
     /*
