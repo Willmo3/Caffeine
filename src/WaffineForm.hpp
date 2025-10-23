@@ -28,6 +28,12 @@ public:
     /*
      * Constructors
      */
+
+    /**
+     * Default constructor to initialize empty affine form.
+     * Useful for seralization.
+     */
+    WaffineForm();
     /**
      * @param center Real number center for affine form.
      * @param starting_coeffs error coefficients to prime the affine form with
