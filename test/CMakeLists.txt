@@ -13,7 +13,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../out/tests)
 add_executable(test_waffine test_waffine_binop.cpp
         test_waffine_unop.cpp
         test_waffine_scalar.cpp
-        test_waffine_serialization.cpp)
+        test_waffine_serialization.cpp
+        test_waffine_equals.cpp)
 target_link_libraries(test_waffine waffine winterval GTest::gtest_main)
 include(GoogleTest)
 

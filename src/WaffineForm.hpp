@@ -119,6 +119,19 @@ public:
         archive( _center, _coefficients );
     }
 
+    /*
+     * Assorted helpers
+     */
+
+    /**
+     * Return whether two affine forms are exactly equal.
+     * This means they have the same noise symbols with the same coefficients.
+     *
+     * @param other Waffine form to compare against.
+     * @return Whether the two forms are exactly equal.
+     */
+    bool operator==(const WaffineForm &other);
+
 private:
     /*
      * Non-affine function approximator helpers.

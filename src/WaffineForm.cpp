@@ -297,6 +297,25 @@ WaffineForm WaffineForm::inv() const {
 }
 
 /*
+ * Public helpers
+ */
+bool WaffineForm::operator==(const WaffineForm &other) {
+    if (this->_center != other._center) {
+        return false;
+    }
+    if (this->_coefficients.size() != other._coefficients.size()) {
+        return false;
+    }
+    for (auto [symbol, coeff] : this->_coefficients) {
+        // Note: if a coeff is not present, this will return NaN.
+        if (other.coeff_of(symbol) != coeff) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/*
  * Internal helpers
  */
 // Internal clone constructor
