@@ -5,7 +5,7 @@ echo "installing and updating Waffine dependencies"
 cd ..
 
 parentname="$(basename "$(pwd)")"
-if [ $parentname != "Waffine" ] && [ $parentname != "waffine" ]; then
+if [ $parentname != "Waffine" ] && [ $parentname != "waffine" ] && [ $parentname != "Caffeine"]; then
   echo "Attempted setup from wrong directory -- move to Waffine/bin!"
   exit 1
 fi
@@ -21,8 +21,8 @@ cd lib
 if [ -d 'Winterval' ]; then 
   rm -r 'Winterval'
 fi
-wget 'https://github.com/Willmo3/Winterval/raw/refs/heads/main/release/winterval-v0.0.5.tar.gz'
-tar -xzf 'winterval-v0.0.5.tar.gz' && rm 'winterval-v0.0.5.tar.gz'
+wget 'https://github.com/Willmo3/Winterval/raw/refs/heads/main/release/winterval-v0.0.7.tar.gz'
+tar -xzf 'winterval-v0.0.7.tar.gz' && rm 'winterval-v0.0.7.tar.gz'
 
 # download cereal headers.
 if [[ -d "cereal" ]]; then
