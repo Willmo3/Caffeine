@@ -6,10 +6,10 @@
 
 #include "cereal/archives/json.hpp"
 #include "cereal/types/vector.hpp"
-#include "../src/WaffineForm.hpp"
+#include "../src/AffineForm.hpp"
 
-TEST(waffine_serialization, serialize_deserialize) {
-    auto original = WaffineForm(Winterval(-2, 3));
+TEST(affine_serialization, serialize_deserialize) {
+    auto original = AffineForm(Winterval(-2, 3));
 
     std::stringstream ss;
     {
@@ -17,7 +17,7 @@ TEST(waffine_serialization, serialize_deserialize) {
         oarchive(original);
     }
 
-    auto deserialized = WaffineForm();
+    auto deserialized = AffineForm();
     {
         cereal::JSONInputArchive iarchive(ss);
         iarchive(deserialized);
@@ -26,11 +26,11 @@ TEST(waffine_serialization, serialize_deserialize) {
     ASSERT_TRUE(original == deserialized);
 }
 
-TEST(waffine_serialization, serialize_vector) {
-    auto original = std::vector<WaffineForm>();
+TEST(affine_serialization, serialize_vector) {
+    auto original = std::vector<AffineForm>();
 
     for (auto i = 0; i < 2000; i++) {
-        original.emplace_back(WaffineForm(Winterval(i, i + 1)));
+        original.emplace_back(AffineForm(Winterval(i, i + 1)));
     }
     std::stringstream ss;
     {
@@ -38,7 +38,7 @@ TEST(waffine_serialization, serialize_vector) {
         oarchive(original);
     }
 
-    auto new_vec = std::vector<WaffineForm>();
+    auto new_vec = std::vector<AffineForm>();
     {
         cereal::JSONInputArchive iarchive(ss);
         iarchive(new_vec);

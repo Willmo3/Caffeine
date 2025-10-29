@@ -22,7 +22,7 @@
  * Affine forms are a symbolic representation of a
  * Form: x_hat + sum(real coefficient * noise_symbol).
  */
-class WaffineForm {
+class AffineForm {
 
 public:
     /*
@@ -33,16 +33,16 @@ public:
      * Default constructor to initialize empty affine form.
      * Useful for seralization.
      */
-    WaffineForm();
+    AffineForm();
     /**
      * @param center Real number center for affine form.
      * @param starting_coeffs error coefficients to prime the affine form with
      */
-    WaffineForm(double center, const std::unordered_map<noise_symbol_t, double> &starting_coeffs);
+    AffineForm(double center, const std::unordered_map<noise_symbol_t, double> &starting_coeffs);
     /**
      * @param interval Interval to construct center, error points from.
      */
-    explicit WaffineForm(const Winterval &interval);
+    explicit AffineForm(const Winterval &interval);
 
     /*
      * Accessors
@@ -65,9 +65,9 @@ public:
     /*
      * Unary operations
      */
-    WaffineForm operator-() const;
+    AffineForm operator-() const;
 
-    WaffineForm abs() const;
+    AffineForm abs() const;
 
     /*
      * Binary affine operations
@@ -75,32 +75,32 @@ public:
     /**
      * Additive union of error symbols.
      */
-    WaffineForm operator+(const WaffineForm &other) const;
+    AffineForm operator+(const AffineForm &other) const;
     /**
      * Subtractive union of error symbols.
      */
-    WaffineForm operator-(const WaffineForm &other) const;
+    AffineForm operator-(const AffineForm &other) const;
     /**
      * Outer product of real values with others' errors. Additional error symbol added to account for loss of precision.
      */
-    WaffineForm operator*(const WaffineForm &right) const;
+    AffineForm operator*(const AffineForm &right) const;
     /**
      * Product of this affine form and the inverse of the rhs.
      */
-    WaffineForm operator/(const WaffineForm &right) const;
+    AffineForm operator/(const AffineForm &right) const;
 
     /**
      * @return The affine form multiplied by itself power times.
      */
-    WaffineForm pow(uint32_t power) const;
+    AffineForm pow(uint32_t power) const;
 
     /*
      * Scalar arithmetic operations
      */
-    WaffineForm operator*(double other) const;
-    WaffineForm operator+(double other) const;
-    WaffineForm operator-(double other) const;
-    WaffineForm operator/(double other) const;
+    AffineForm operator*(double other) const;
+    AffineForm operator+(double other) const;
+    AffineForm operator-(double other) const;
+    AffineForm operator/(double other) const;
     /*
      * Scalar comparison operations
      * Note: these will be compared with the interval form of the system, as this reduces to concrete domain.
@@ -130,7 +130,7 @@ public:
      * @param other Waffine form to compare against.
      * @return Whether the two forms are exactly equal.
      */
-    bool operator==(const WaffineForm &other) const;
+    bool operator==(const AffineForm &other) const;
 
 private:
     /*
@@ -148,12 +148,12 @@ private:
      * @param delta Coefficient for new error term.
      * @return The affine approximation.
      */
-    WaffineForm approximate_affine_form(double alpha, double zeta, double delta) const;
+    AffineForm approximate_affine_form(double alpha, double zeta, double delta) const;
     /**
      * @return A new affine form representing the inverse of this form.
      * Approximate with mini-range.
      */
-    WaffineForm inv() const;
+    AffineForm inv() const;
 
     /*
      * Assorted helpers.
@@ -162,7 +162,7 @@ private:
     /**
      * @return A deep copy of this affine form.
      */
-    WaffineForm clone() const;
+    AffineForm clone() const;
 
     /*
      * Fields
@@ -181,7 +181,7 @@ private:
 
 // Using reference to remove redundant copy.
 // TODO: reflect this change elsewhere.
-std::ostream& operator<<(std::ostream& os, WaffineForm rhs);
+std::ostream& operator<<(std::ostream& os, AffineForm rhs);
 
 
 #endif //WAFFINE_WAFFINEFORM_H

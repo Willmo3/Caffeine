@@ -10,11 +10,11 @@ FetchContent_MakeAvailable(googletest)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../out/tests)
 
 # NOTE: due to static state, ordering of these test cases is important!
-add_executable(test_waffine test_waffine_binop.cpp
-        test_waffine_unop.cpp
-        test_waffine_scalar.cpp
-        test_waffine_serialization.cpp
-        test_waffine_equals.cpp)
-target_link_libraries(test_waffine waffine winterval GTest::gtest_main)
+add_executable(test_caffeine test_affine_binop.cpp
+        test_affine_unop.cpp
+        test_affine_scalar.cpp
+        test_affine_serialization.cpp
+        test_affine_equals.cpp)
+target_link_libraries(test_caffeine caffeine winterval GTest::gtest_main)
 include(GoogleTest)
 

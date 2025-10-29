@@ -5,25 +5,25 @@
 #include <math.h>
 #include <gtest/gtest.h>
 
-#include "../src/WaffineForm.hpp"
+#include "../src/AffineForm.hpp"
 
-TEST(waffine_scalar, comparison) {
-    auto base = WaffineForm(Winterval(-2, 3));
+TEST(affine_scalar, comparison) {
+    auto base = AffineForm(Winterval(-2, 3));
     ASSERT_FALSE(base > -2);
     ASSERT_TRUE(base >= -2);
     ASSERT_FALSE(base < 3);
     ASSERT_TRUE(base <= 3);
 }
-TEST(waffine_scalar, mult) {
-    auto base = WaffineForm(Winterval(-2, 3)) * -2;
+TEST(affine_scalar, mult) {
+    auto base = AffineForm(Winterval(-2, 3)) * -2;
     auto min = base.to_interval().min();
     auto max = base.to_interval().max();
 
     ASSERT_EQ(-6, min);
     ASSERT_EQ(4, max);
 }
-TEST(waffine_scalar, div) {
-    auto base = WaffineForm(Winterval(-2, 3)) / -2;
+TEST(affine_scalar, div) {
+    auto base = AffineForm(Winterval(-2, 3)) / -2;
     auto min = base.to_interval().min();
     auto max = base.to_interval().max();
 
@@ -35,8 +35,8 @@ TEST(waffine_scalar, div) {
     // ASSERT_EQ(-INFINITY, base.to_interval().min());
     // ASSERT_EQ(INFINITY, base.to_interval().max());
 }
-TEST(waffine_scalar, add) {
-    auto base = WaffineForm(Winterval(-2, 3)) + 2;
+TEST(affine_scalar, add) {
+    auto base = AffineForm(Winterval(-2, 3)) + 2;
     auto min = base.to_interval().min();
     auto max = base.to_interval().max();
     ASSERT_EQ(0, min);
@@ -46,8 +46,8 @@ TEST(waffine_scalar, add) {
     ASSERT_EQ(-1, base.to_interval().min());
     ASSERT_EQ(4, base.to_interval().max());
 }
-TEST(waffine_scalar, sub) {
-    auto base = WaffineForm(Winterval(-2, 3)) - 2;
+TEST(affine_scalar, sub) {
+    auto base = AffineForm(Winterval(-2, 3)) - 2;
     auto min = base.to_interval().min();
     auto max = base.to_interval().max();
 

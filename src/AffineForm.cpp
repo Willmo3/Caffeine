@@ -2,7 +2,7 @@
 // Created by will on 9/23/25.
 //
 
-#include "WaffineForm.hpp"
+#include "AffineForm.hpp"
 
 #include <cmath>
 #include <cstring>
@@ -16,23 +16,23 @@
 /*
  * Constructors
  */
-WaffineForm::WaffineForm(double center, const std::unordered_map<noise_symbol_t, double> &starting_coeffs):
+AffineForm::AffineForm(double center, const std::unordered_map<noise_symbol_t, double> &starting_coeffs):
     _center(center), _coefficients(std::unordered_map<noise_symbol_t, double>()) {
     // Initialize this map with the explicitly defined starting values.
     for (auto pair : starting_coeffs) {
         _coefficients.insert(pair);
     }
 }
-WaffineForm::WaffineForm(const Winterval& interval): _center((interval.min() + interval.max()) / 2),
+AffineForm::AffineForm(const Winterval& interval): _center((interval.min() + interval.max()) / 2),
     _coefficients(std::unordered_map<noise_symbol_t, double>()) {
     _coefficients.insert(std::pair(new_noise_symbol(), (interval.min() - interval.max()) / 2));
 }
-WaffineForm::WaffineForm(): _center(0), _coefficients(std::unordered_map<noise_symbol_t, double>()) {}
+AffineForm::AffineForm(): _center(0), _coefficients(std::unordered_map<noise_symbol_t, double>()) {}
 
 /*
  * Unary operators
  */
-WaffineForm WaffineForm::operator-() const {
+AffineForm AffineForm::operator-() const {
     auto value = clone();
     value._center = -_center;
     for (const auto symbol: _coefficients | std::views::keys) {
@@ -40,7 +40,7 @@ WaffineForm WaffineForm::operator-() const {
     }
     return value;
 }
-WaffineForm WaffineForm::abs() const {
+AffineForm AffineForm::abs() const {
     // Strictly negative
     if (this->operator<(0)) {
         return this->operator*(-1);
@@ -62,7 +62,7 @@ WaffineForm WaffineForm::abs() const {
 /*
  * Affine arithmetic operators.
  */
-WaffineForm WaffineForm::operator+(const WaffineForm &other) const {
+AffineForm AffineForm::operator+(const AffineForm &other) const {
     auto value = clone();
     value._center += other._center;
 
@@ -77,7 +77,7 @@ WaffineForm WaffineForm::operator+(const WaffineForm &other) const {
     // Since affine addition introduces no new error, we don't need to add a new value!
     return value;
 }
-WaffineForm WaffineForm::operator-(const WaffineForm &other) const {
+AffineForm AffineForm::operator-(const AffineForm &other) const {
     auto value = clone();
     value._center -= other._center;
 
@@ -91,8 +91,8 @@ WaffineForm WaffineForm::operator-(const WaffineForm &other) const {
 
     return value;
 }
-WaffineForm WaffineForm::operator*(const WaffineForm &right) const {
-    auto result = WaffineForm(this->_center * right._center, std::unordered_map<noise_symbol_t, double>());
+AffineForm AffineForm::operator*(const AffineForm &right) const {
+    auto result = AffineForm(this->_center * right._center, std::unordered_map<noise_symbol_t, double>());
     // Affine form multiplication is an outer product.
 
     // Perform product for all error symbols in rhs.
@@ -119,14 +119,14 @@ WaffineForm WaffineForm::operator*(const WaffineForm &right) const {
     result._coefficients[new_noise_symbol()] = this->radius() * right.radius();
     return result;
 }
-WaffineForm WaffineForm::operator/(const WaffineForm &right) const {
+AffineForm AffineForm::operator/(const AffineForm &right) const {
     return operator*(right.inv());
 }
 
 /*
  * Scalar arithmetic operators
  */
-WaffineForm WaffineForm::operator*(double other) const {
+AffineForm AffineForm::operator*(double other) const {
     auto value = clone();
     value._center *= other;
     for (const auto symbol: _coefficients | std::views::keys) {
@@ -134,26 +134,26 @@ WaffineForm WaffineForm::operator*(double other) const {
     }
     return value;
 }
-WaffineForm WaffineForm::operator+(double other) const {
+AffineForm AffineForm::operator+(double other) const {
     auto value = clone();
     value._center += other;
     // Notice: addition does not affect error symbols.
     // effectively, the polytope is simply being translated.
     return value;
 }
-WaffineForm WaffineForm::operator-(double other) const {
+AffineForm AffineForm::operator-(double other) const {
     auto value = clone();
     value._center -= other;
     return value;
 }
-WaffineForm WaffineForm::operator/(double other) const {
+AffineForm AffineForm::operator/(double other) const {
     // Special case: 0. In affine forms, this will set all terms to 0, leading to a unit form.
     if (other == 0) {
         return { 0, std::unordered_map<noise_symbol_t, double>() };
     }
     return operator*(1 / other);
 }
-WaffineForm WaffineForm::pow(uint32_t power) const {
+AffineForm AffineForm::pow(uint32_t power) const {
     // TODO: as we adapt the numeric API, we could switch this to use negative numbers w/ the inverse strategy.
     if (power == 0) {
         // Our implementation always returns affine forms, even if the power is 0 -- in this case, an exact affine form.
@@ -184,23 +184,23 @@ WaffineForm WaffineForm::pow(uint32_t power) const {
 /*
  * Scalar comparison operators.
  */
-bool WaffineForm::operator<(double other) const {
+bool AffineForm::operator<(double other) const {
     return to_interval() < other;
 }
-bool WaffineForm::operator>(double other) const {
+bool AffineForm::operator>(double other) const {
     return to_interval() > other;
 }
-bool WaffineForm::operator<=(double other) const {
+bool AffineForm::operator<=(double other) const {
     return to_interval() <= other;
 }
-bool WaffineForm::operator>=(double other) const {
+bool AffineForm::operator>=(double other) const {
     return to_interval() >= other;
 }
 
 /*
  * Accessors
  */
-std::string WaffineForm::to_string() const {
+std::string AffineForm::to_string() const {
     std::string retval = std::string();
     retval += "Interval concretization: ";
     retval += "[" + std::to_string(to_interval().min());
@@ -216,23 +216,23 @@ std::string WaffineForm::to_string() const {
     return retval;
 }
 
-double WaffineForm::center() const {
+double AffineForm::center() const {
     return _center;
 }
 
-double WaffineForm::radius() const {
+double AffineForm::radius() const {
     return std::accumulate(_coefficients.begin(), _coefficients.end(), 0.0,
         [](auto sum, auto pair) { return sum + std::abs(pair.second); });
 }
 
-double WaffineForm::coeff_of(noise_symbol_t symbol) const {
+double AffineForm::coeff_of(noise_symbol_t symbol) const {
     if (_coefficients.contains(symbol)) {
         return _coefficients.at(symbol);
     }
     return NAN;
 }
 
-Winterval WaffineForm::to_interval() const {
+Winterval AffineForm::to_interval() const {
     // Note: unable to do accumulation because of behavior with unordered maps.
     double error_magnitude = 0;
     for (auto coeff: _coefficients | std::views::values) {
@@ -253,7 +253,7 @@ Approximating a non-affine form follows a general pattern:
 - Add a new error term with coeff delta.
 
 */
-WaffineForm WaffineForm::approximate_affine_form(double alpha, double zeta, double delta) const {
+AffineForm AffineForm::approximate_affine_form(double alpha, double zeta, double delta) const {
     auto center = alpha * _center + zeta;
 
     auto map = std::unordered_map<noise_symbol_t, double>();
@@ -270,13 +270,13 @@ WaffineForm WaffineForm::approximate_affine_form(double alpha, double zeta, doub
  * Use mini-range approximation rather than standard Chebyshev.
  * Credit: libaffa
  */
-WaffineForm WaffineForm::inv() const {
+AffineForm AffineForm::inv() const {
     auto interval = this->to_interval();
     if (interval.contains(0)) {
         // If interval contains 0, infinity will be in this interval, or the interval will just be [0, 0].
         // The blowup to infinity wipes away the dependence of the variables and adds a term of unlimited magnitude.
         // We will hence construct a new affine form from the corresponding interval, since no dependencence can be preserved.
-        return WaffineForm(this->to_interval());
+        return AffineForm(this->to_interval());
     }
 
     auto a = interval.abs().min();
@@ -299,7 +299,7 @@ WaffineForm WaffineForm::inv() const {
 /*
  * Public helpers
  */
-bool WaffineForm::operator==(const WaffineForm &other) const {
+bool AffineForm::operator==(const AffineForm &other) const {
     if (this->_center != other._center) {
         return false;
     }
@@ -319,14 +319,14 @@ bool WaffineForm::operator==(const WaffineForm &other) const {
  * Internal helpers
  */
 // Internal clone constructor
-WaffineForm WaffineForm::clone() const {
+AffineForm AffineForm::clone() const {
     return { this->_center, std::unordered_map(this->_coefficients) };
 }
 
 /*
  * Associated operators.
  */
-std::ostream& operator<<(std::ostream& os, WaffineForm rhs) {
+std::ostream& operator<<(std::ostream& os, AffineForm rhs) {
     os << rhs.to_string();
     return os;
 }
