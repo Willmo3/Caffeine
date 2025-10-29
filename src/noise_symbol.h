@@ -2,8 +2,8 @@
 // Created by will on 9/24/25.
 //
 
-#ifndef WAFFINE_NOISESYMBOL_H
-#define WAFFINE_NOISESYMBOL_H
+#ifndef CAFFEINE_NOISESYMBOL_H
+#define CAFFEINE_NOISESYMBOL_H
 #include <cstdint>
 
 /*
@@ -25,4 +25,4 @@ noise_symbol_t new_noise_symbol();
  */
 bool valid_noise_symbol(noise_symbol_t symbol);
 
-#endif //WAFFINE_NOISESYMBOL_H
+#endif //CAFFEINE_NOISESYMBOL_H

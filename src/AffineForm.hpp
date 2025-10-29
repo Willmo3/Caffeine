@@ -2,8 +2,8 @@
 // Created by will on 9/23/25.
 //
 
-#ifndef WAFFINE_WAFFINEFORM_H
-#define WAFFINE_WAFFINEFORM_H
+#ifndef CAFFEINE_AFFINEFORM_H
+#define CAFFEINE_AFFINEFORM_H
 #include <unordered_map>
 #include <vector>
 
@@ -184,4 +184,4 @@ private:
 std::ostream& operator<<(std::ostream& os, AffineForm rhs);
 
 
-#endif //WAFFINE_WAFFINEFORM_H
+#endif //CAFFEINE_AFFINEFORM_H
