@@ -8,6 +8,7 @@ int main() {
     cereal::JSONOutputArchive archive(file);
 
     AffineForm w = AffineForm(Winterval(-2, 3));
+    std::cout << w << std::endl;
     w = w * AffineForm(Winterval(4, 5)) + AffineForm(Winterval(-1, 1));
 
     archive(w);

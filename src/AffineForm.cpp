@@ -327,6 +327,6 @@ AffineForm AffineForm::clone() const {
  * Associated operators.
  */
 std::ostream& operator<<(std::ostream& os, AffineForm rhs) {
-    os << rhs.to_string();
+    os << "a" << rhs.to_interval();
     return os;
 }
