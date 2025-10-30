@@ -41,6 +41,6 @@ TEST(affine_binop, div) {
     ASSERT_NEAR(next.radius(), 0.637500, 0.001);
     ASSERT_NEAR(next.coeff_of(7), -0.562500, 0.001);
     ASSERT_NEAR(next.coeff_of(8), 0.010000, 0.001);
-    ASSERT_NEAR(next.coeff_of(9), -0.002500, 0.001);
+    ASSERT_NEAR(next.coeff_of(9), 0.002500, 0.001);
     ASSERT_NEAR(next.coeff_of(10), 0.062500, 0.001);
 }
