@@ -238,7 +238,17 @@ Winterval AffineForm::to_interval() const {
     for (auto coeff: _coefficients | std::views::values) {
         error_magnitude += std::abs(coeff);
     }
-    return {_center - error_magnitude, _center + error_magnitude};
+
+    auto min = _center - error_magnitude;
+    auto max = _center + error_magnitude;
+    if (std::isnan(min)) {
+        min = INFINITY * -1;
+    }
+    if (std::isnan(max)) {
+        max = INFINITY;
+    }
+    
+    return {min, max};
 }
 
 /*
