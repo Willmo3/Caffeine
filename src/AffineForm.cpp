@@ -247,7 +247,7 @@ Winterval AffineForm::to_interval() const {
     if (std::isnan(max)) {
         max = INFINITY;
     }
-    
+
     return {min, max};
 }
 
