@@ -40,24 +40,16 @@ AffineForm::AffineForm(): _center(0), _coefficients(std::unordered_map<noise_sym
  * Unary operators
  */
 AffineForm AffineForm::operator-() const {
-#   ifdef AFFINE_TIME_PROFILE
-    auto time = std::chrono::high_resolution_clock::now();
-#   endif
-
     auto value = clone();
     value._center = -_center;
     for (const auto symbol: _coefficients | std::views::keys) {
         value._coefficients[symbol] *= -1;
     }
 
-#   ifdef AFFINE_TIME_PROFILE
-    print_debug_info("negation", time);
-#   endif
-
     return value;
 }
 AffineForm AffineForm::abs() const {
-#   ifdef AFFINE_TIME_PROFILE
+#   ifdef AFFINE_TIME_ABS
     auto time = std::chrono::high_resolution_clock::now();
 #   endif
 
@@ -77,7 +69,7 @@ AffineForm AffineForm::abs() const {
         value._coefficients[symbol] /= 2;
     }
 
-#   ifdef AFFINE_TIME_PROFILE
+#   ifdef AFFINE_TIME_ABS
     print_debug_info("absolute value", time);
 #   endif
 
@@ -88,7 +80,7 @@ AffineForm AffineForm::abs() const {
  * Affine arithmetic operators.
  */
 AffineForm AffineForm::operator+(const AffineForm &other) const {
-#   ifdef AFFINE_TIME_PROFILE
+#   ifdef AFFINE_TIME_ADD
     auto time = std::chrono::high_resolution_clock::now();
 #   endif
 
@@ -104,7 +96,7 @@ AffineForm AffineForm::operator+(const AffineForm &other) const {
         }
     }
 
-#   ifdef AFFINE_TIME_PROFILE
+#   ifdef AFFINE_TIME_ADD
     print_debug_info("addition", time);
 #   endif
 
@@ -112,7 +104,7 @@ AffineForm AffineForm::operator+(const AffineForm &other) const {
     return value;
 }
 AffineForm AffineForm::operator-(const AffineForm &other) const {
-#   ifdef AFFINE_TIME_PROFILE
+#   ifdef AFFINE_TIME_SUB
     auto time = std::chrono::high_resolution_clock::now();
 #   endif
 
@@ -127,14 +119,14 @@ AffineForm AffineForm::operator-(const AffineForm &other) const {
         }
     }
 
-#   ifdef AFFINE_TIME_PROFILE
+#   ifdef AFFINE_TIME_SUB
     print_debug_info("subtraction", time);
 #   endif
 
     return value;
 }
 AffineForm AffineForm::operator*(const AffineForm &right) const {
-#   ifdef AFFINE_TIME_PROFILE
+#   ifdef AFFINE_TIME_MULT
     auto time = std::chrono::high_resolution_clock::now();
 #   endif
 
@@ -164,7 +156,7 @@ AffineForm AffineForm::operator*(const AffineForm &right) const {
     // For now, we add an error w/ coeff rad * rad, following Affapy impl.
     result._coefficients[new_noise_symbol()] = this->radius() * right.radius();
 
-#   ifdef AFFINE_TIME_PROFILE
+#   ifdef AFFINE_TIME_MULT
     print_debug_info("multiplication", time);
 #   endif
 
@@ -205,7 +197,7 @@ AffineForm AffineForm::operator/(double other) const {
     return operator*(1 / other);
 }
 AffineForm AffineForm::pow(uint32_t power) const {
-#   ifdef AFFINE_TIME_PROFILE
+#   ifdef AFFINE_TIME_POW
     auto time = std::chrono::high_resolution_clock::now();
 #   endif
 
@@ -234,7 +226,7 @@ AffineForm AffineForm::pow(uint32_t power) const {
         return result * *this;
     }
 
-#   ifdef AFFINE_TIME_PROFILE
+#   ifdef AFFINE_TIME_POW
     print_debug_info("multiplication", time);
 #   endif
 
@@ -324,7 +316,7 @@ Approximating a non-affine form follows a general pattern:
 
 */
 AffineForm AffineForm::approximate_affine_form(double alpha, double zeta, double delta) const {
-#   ifdef AFFINE_TIME_PROFILE
+#   ifdef AFFINE_TIME_OTHER
     auto time = std::chrono::high_resolution_clock::now();
 #   endif
 
@@ -338,8 +330,8 @@ AffineForm AffineForm::approximate_affine_form(double alpha, double zeta, double
 
     map.insert({new_noise_symbol(), delta});
 
-#   ifdef AFFINE_TIME_PROFILE
-    print_debug_info("multiplication", time);
+#   ifdef AFFINE_TIME_OTHER
+    print_debug_info("approximation constructions", time);
 #   endif
 
     return { center, map };
@@ -350,7 +342,7 @@ AffineForm AffineForm::approximate_affine_form(double alpha, double zeta, double
  * Credit: libaffa
  */
 AffineForm AffineForm::inv() const {
-#   ifdef AFFINE_TIME_PROFILE
+#   ifdef AFFINE_TIME_INV
     auto time = std::chrono::high_resolution_clock::now();
 #   endif
 
@@ -375,7 +367,7 @@ AffineForm AffineForm::inv() const {
         zeta = -zeta;
     }
 
-#   ifdef AFFINE_TIME_PROFILE
+#   ifdef AFFINE_TIME_INV
     print_debug_info("multiplication", time);
 #   endif
 

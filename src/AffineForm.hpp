@@ -14,7 +14,13 @@
 #include "cereal/types/unordered_map.hpp"
 
 // Print time profiling of expensive functions.
-// #define AFFINE_TIME_PROFILE
+// #define AFFINE_TIME_MULT
+// #define AFFINE_TIME_SUB
+// #define AFFINE_TIME_ABS
+// #define AFFINE_TIME_ADD
+// #define AFFINE_TIME_POW
+// #define AFFINE_TIME_INV
+// #define AFFINE_TIME_OTHER
 
 // Author: Will Morris
 // Credit to https://github.com/ogay/libaffa for cpp implementation tips.
