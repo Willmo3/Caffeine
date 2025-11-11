@@ -8,10 +8,13 @@
 #include <vector>
 
 #include "noise_symbol.h"
-#include "../lib/Winterval/Winterval.hpp"
+#include "Winterval/Winterval.hpp"
 // Note: cereal root must be in the build path
 #include "cereal/archives/json.hpp"
 #include "cereal/types/unordered_map.hpp"
+
+// Print time profiling of expensive functions.
+// #define AFFINE_TIME_PROFILE
 
 // Author: Will Morris
 // Credit to https://github.com/ogay/libaffa for cpp implementation tips.
