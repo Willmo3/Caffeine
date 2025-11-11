@@ -399,7 +399,7 @@ bool AffineForm::operator==(const AffineForm &other) const {
  */
 // Internal clone constructor
 AffineForm AffineForm::clone() const {
-    return { this->_center, std::unordered_map(this->_coefficients) };
+    return { this->_center, this->_coefficients };
 }
 
 /*
