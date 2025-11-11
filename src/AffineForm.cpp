@@ -25,10 +25,13 @@ void print_debug_info(const std::string &op_name, const std::chrono::high_resolu
  */
 AffineForm::AffineForm(double center, const std::unordered_map<noise_symbol_t, double> &starting_coeffs):
     _center(center), _coefficients(starting_coeffs) {
-    // // Initialize this map with the explicitly defined starting values.
-    // for (auto pair : starting_coeffs) {
-    //     _coefficients.insert(pair);
-    // }
+
+    // Reset noise symbols if needed.
+    // NOTE: this branch will almost never be taken!
+    if (_coefficients.size() > MAX_NOISE_SYMBOLS) {
+        std::cout << "reallocating" << std::endl;
+        collapse();
+    }
 }
 AffineForm::AffineForm(const Winterval& interval): _center((interval.min() + interval.max()) / 2),
     _coefficients(std::unordered_map<noise_symbol_t, double>()) {
@@ -401,6 +404,18 @@ bool AffineForm::operator==(const AffineForm &other) const {
 AffineForm AffineForm::clone() const {
     return { this->_center, this->_coefficients };
 }
+
+void AffineForm::collapse() {
+    // Approximate by collapsing all noise symbols into one.
+    double error_magnitude = 0;
+    for (auto coeff: _coefficients | std::views::values) {
+        error_magnitude += std::abs(coeff);
+    }
+
+    _coefficients = std::unordered_map<noise_symbol_t, double>();
+    _coefficients.insert({new_noise_symbol(), error_magnitude});
+}
+
 
 /*
  * Associated operators.

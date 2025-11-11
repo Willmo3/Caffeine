@@ -33,6 +33,9 @@
  */
 class AffineForm {
 
+// Number of noise symbols a given affine form can accumulate before the symbols are collapsed.
+#define MAX_NOISE_SYMBOLS 2048
+
 public:
     /*
      * Constructors
@@ -172,6 +175,11 @@ private:
      * @return A deep copy of this affine form.
      */
     AffineForm clone() const;
+
+    /**
+     * Collapse all the error symbols in this affine form to a single, high-magnitude error.
+     */
+    void collapse();
 
     /*
      * Fields
