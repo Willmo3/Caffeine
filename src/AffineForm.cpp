@@ -29,7 +29,6 @@ AffineForm::AffineForm(double center, const std::unordered_map<noise_symbol_t, d
     // Reset noise symbols if needed.
     // NOTE: this branch will almost never be taken!
     if (_coefficients.size() > MAX_NOISE_SYMBOLS) {
-        std::cout << "reallocating" << std::endl;
         collapse();
     }
 }
