@@ -154,9 +154,7 @@ private:
      */
     static noise_symbol_t max_noise_symbol;
 
-    static noise_symbol_t new_noise_symbol() {
-        return max_noise_symbol++;
-    }
+    static noise_symbol_t new_noise_symbol();
 
     /*
      * Non-affine function approximator helpers.

@@ -14,8 +14,17 @@
 #include <ranges>
 #include <vector>
 
-// Static variable initialization
+/*
+ * Noise symbol management
+ */
 AffineForm::noise_symbol_t AffineForm::max_noise_symbol = 0;
+
+AffineForm::noise_symbol_t AffineForm::new_noise_symbol() {
+    noise_symbol_t symbol;
+#   pragma omp atomic capture
+    symbol = max_noise_symbol++;
+    return symbol;
+}
 
 void print_debug_info(const std::string &op_name, const std::chrono::high_resolution_clock::time_point &start_time) {
     auto end_time = std::chrono::high_resolution_clock::now();
