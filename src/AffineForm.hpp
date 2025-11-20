@@ -7,7 +7,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include "noise_symbol.h"
 #include "Winterval/Winterval.hpp"
 // Note: cereal root must be in the build path
 #include "cereal/archives/json.hpp"
@@ -37,6 +36,11 @@ class AffineForm {
 #define MAX_NOISE_SYMBOLS 128
 
 public:
+    /**
+     * Noise symbols are integers that refer to unique sources of error in affine forms.
+     */
+    typedef uint32_t noise_symbol_t;
+
     /*
      * Constructors
      */
@@ -146,6 +150,15 @@ public:
 
 private:
     /*
+     * Noise symbol handling
+     */
+    static noise_symbol_t max_noise_symbol;
+
+    static noise_symbol_t new_noise_symbol() {
+        return max_noise_symbol++;
+    }
+
+    /*
      * Non-affine function approximator helpers.
      */
 
@@ -195,6 +208,8 @@ private:
      */
     std::unordered_map<noise_symbol_t, double> _coefficients;
 };
+
+// AffineForm::noise_symbol_t AffineForm::max_noise_symbol = 0;
 
 // Using reference to remove redundant copy.
 // TODO: reflect this change elsewhere.

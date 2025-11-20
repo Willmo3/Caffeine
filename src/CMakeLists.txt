@@ -1,4 +1,4 @@
-add_library(caffeine AffineForm.cpp AffineForm.hpp noise_symbol.cpp noise_symbol.h)
+add_library(caffeine AffineForm.cpp AffineForm.hpp)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../out)
 

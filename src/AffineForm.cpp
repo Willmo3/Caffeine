@@ -14,6 +14,9 @@
 #include <ranges>
 #include <vector>
 
+// Static variable initialization
+AffineForm::noise_symbol_t AffineForm::max_noise_symbol = 0;
+
 void print_debug_info(const std::string &op_name, const std::chrono::high_resolution_clock::time_point &start_time) {
     auto end_time = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
