@@ -1,4 +1,5 @@
 add_library(caffeine AffineForm.cpp AffineForm.hpp)
+add_subdirectory(test)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../out)
 
