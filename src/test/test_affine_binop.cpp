@@ -44,3 +44,10 @@ TEST(affine_binop, div) {
     ASSERT_NEAR(next.coeff_of(9), 0.002500, 0.001);
     ASSERT_NEAR(next.coeff_of(10), 0.062500, 0.001);
 }
+
+TEST(affine_binop, union_with) {
+    auto base = AffineForm(Winterval(-2, 3));
+    auto next = base.union_with(AffineForm(Winterval(4, 5)));
+    ASSERT_NEAR(next.center(), 1.5, 0.001);
+    ASSERT_NEAR(next.radius(), 3.5, 0.001);
+}

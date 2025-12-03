@@ -85,6 +85,11 @@ public:
 
     AffineForm abs() const;
 
+    /**
+     * @return The affine form multiplied by itself power times.
+     */
+    AffineForm pow(uint32_t power) const;
+
     /*
      * Binary affine operations
      */
@@ -104,11 +109,14 @@ public:
      * Product of this affine form and the inverse of the rhs.
      */
     AffineForm operator/(const AffineForm &right) const;
-
     /**
-     * @return The affine form multiplied by itself power times.
+     * @brief Perform a union operation. This converts each to interval bounds, rather than fitting a convex hull,
+     * so it does not preserve affine relationships. (i.e. it allocates a new error symbol)
+     *
+     * @param other other affine form to union with.
+     * @return the union of the interval bounds of this affine form and the other.
      */
-    AffineForm pow(uint32_t power) const;
+    AffineForm union_with(const AffineForm &other) const;
 
     /*
      * Scalar arithmetic operations

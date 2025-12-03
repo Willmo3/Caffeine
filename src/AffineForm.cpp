@@ -179,37 +179,6 @@ AffineForm AffineForm::operator*(const AffineForm &right) const {
 AffineForm AffineForm::operator/(const AffineForm &right) const {
     return operator*(right.inv());
 }
-
-/*
- * Scalar arithmetic operators
- */
-AffineForm AffineForm::operator*(double other) const {
-    auto value = clone();
-    value._center *= other;
-    for (const auto symbol: _coefficients | std::views::keys) {
-        value._coefficients[symbol] *= other;
-    }
-    return value;
-}
-AffineForm AffineForm::operator+(double other) const {
-    auto value = clone();
-    value._center += other;
-    // Notice: addition does not affect error symbols.
-    // effectively, the polytope is simply being translated.
-    return value;
-}
-AffineForm AffineForm::operator-(double other) const {
-    auto value = clone();
-    value._center -= other;
-    return value;
-}
-AffineForm AffineForm::operator/(double other) const {
-    // Special case: 0. In affine forms, this will set all terms to 0, leading to a unit form.
-    if (other == 0) {
-        return { 0, std::unordered_map<noise_symbol_t, double>() };
-    }
-    return operator*(1 / other);
-}
 AffineForm AffineForm::pow(uint32_t power) const {
 #   ifdef AFFINE_TIME_POW
     auto time = std::chrono::high_resolution_clock::now();
@@ -245,6 +214,44 @@ AffineForm AffineForm::pow(uint32_t power) const {
 #   endif
 
     return result;
+}
+AffineForm AffineForm::union_with(const AffineForm &other) const {
+    auto interval1 = this->to_interval();
+    auto interval2 = other.to_interval();
+    auto union_interval = interval1.union_with(interval2);
+    // Notice the loss of dependence information here.
+    return AffineForm(union_interval);
+}
+
+/*
+ * Scalar arithmetic operators
+ */
+AffineForm AffineForm::operator*(double other) const {
+    auto value = clone();
+    value._center *= other;
+    for (const auto symbol: _coefficients | std::views::keys) {
+        value._coefficients[symbol] *= other;
+    }
+    return value;
+}
+AffineForm AffineForm::operator+(double other) const {
+    auto value = clone();
+    value._center += other;
+    // Notice: addition does not affect error symbols.
+    // effectively, the polytope is simply being translated.
+    return value;
+}
+AffineForm AffineForm::operator-(double other) const {
+    auto value = clone();
+    value._center -= other;
+    return value;
+}
+AffineForm AffineForm::operator/(double other) const {
+    // Special case: 0. In affine forms, this will set all terms to 0, leading to a unit form.
+    if (other == 0) {
+        return { 0, std::unordered_map<noise_symbol_t, double>() };
+    }
+    return operator*(1 / other);
 }
 
 /*
