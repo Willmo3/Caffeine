@@ -109,6 +109,10 @@ public:
      * Product of this affine form and the inverse of the rhs.
      */
     AffineForm operator/(const AffineForm &right) const;
+
+    /*
+     * Compositional operations
+     */
     /**
      * @brief Perform a union operation. This converts each to interval bounds, rather than fitting a convex hull,
      * so it does not preserve affine relationships. (i.e. it allocates a new error symbol)
@@ -117,6 +121,18 @@ public:
      * @return the union of the interval bounds of this affine form and the other.
      */
     AffineForm union_with(const AffineForm &other) const;
+
+    template<uint32_t N>
+    std::array<AffineForm, N> split() const {
+        auto interval_split = to_interval().split<N>();
+        auto affine_split = std::array<AffineForm, N>{};
+
+        for (auto i = 0; i < interval_split.size(); i++) {
+            affine_split[i] = AffineForm(interval_split[i]);
+        }
+
+        return affine_split;
+    }
 
     /*
      * Scalar arithmetic operations

@@ -51,3 +51,12 @@ TEST(affine_binop, union_with) {
     ASSERT_NEAR(next.center(), 1.5, 0.001);
     ASSERT_NEAR(next.radius(), 3.5, 0.001);
 }
+
+TEST(affine_binop, split) {
+    auto base = AffineForm(Winterval(0, 6));
+    auto splits = base.split<3>();
+
+    ASSERT_EQ(Winterval(0, 2), splits[0].to_interval());
+    ASSERT_EQ(Winterval(2, 4), splits[1].to_interval());
+    ASSERT_EQ(Winterval(4, 6), splits[2].to_interval());
+}
