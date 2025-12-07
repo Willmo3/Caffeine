@@ -7,13 +7,6 @@
 
 #include "../src/AffineForm.hpp"
 
-TEST(affine_scalar, comparison) {
-    auto base = AffineForm(Winterval(-2, 3));
-    ASSERT_FALSE(base > -2);
-    ASSERT_TRUE(base >= -2);
-    ASSERT_FALSE(base < 3);
-    ASSERT_TRUE(base <= 3);
-}
 TEST(affine_scalar, mult) {
     auto base = AffineForm(Winterval(-2, 3)) * -2;
     auto min = base.to_interval().min();

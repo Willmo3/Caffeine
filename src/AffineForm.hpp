@@ -135,20 +135,48 @@ public:
     }
 
     /*
+     * Relational operations
+     */
+
+    /*
+     * Binary affine comparison operations
+     */
+    /**
+     * Return whether two affine forms are exactly equal.
+     * This means they have the same noise symbols with the same coefficients.
+     *
+     * @param other Waffine form to compare against.
+     * @return Whether the two forms are exactly equal.
+     */
+    bool operator==(const AffineForm &other) const;
+    /**
+     * @return Whether the affine forms are not completely equal -- i.e. have different noise symbols with different coefficients.
+     */
+    bool operator!=(const AffineForm &other) const;
+    /*
+     * Use interval concretization for binary ops bc we need to reason about full magnitude for sound guarantee in the scalar domain.
+     */
+    bool operator<(const AffineForm &other) const;
+    bool operator<=(const AffineForm &other) const;
+    bool operator>(const AffineForm &other) const;
+    bool operator>=(const AffineForm &other) const;
+
+    /*
+     * Scalar comparison operations
+     * Note: compares against the interval concretization, as scalar comparison is in the concrete domain.
+     */
+    bool operator<(double other) const;
+    bool operator>(double other) const;
+    bool operator<=(double other) const;
+    bool operator>=(double other) const;
+
+    /*
      * Scalar arithmetic operations
      */
     AffineForm operator*(double other) const;
     AffineForm operator+(double other) const;
     AffineForm operator-(double other) const;
     AffineForm operator/(double other) const;
-    /*
-     * Scalar comparison operations
-     * Note: these will be compared with the interval form of the system, as this reduces to concrete domain.
-     */
-    bool operator<(double other) const;
-    bool operator>(double other) const;
-    bool operator<=(double other) const;
-    bool operator>=(double other) const;
 
     /*
      * Serialization helpers.
@@ -162,15 +190,6 @@ public:
     /*
      * Assorted helpers
      */
-
-    /**
-     * Return whether two affine forms are exactly equal.
-     * This means they have the same noise symbols with the same coefficients.
-     *
-     * @param other Waffine form to compare against.
-     * @return Whether the two forms are exactly equal.
-     */
-    bool operator==(const AffineForm &other) const;
 
 private:
     /*

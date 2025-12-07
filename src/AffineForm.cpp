@@ -224,6 +224,44 @@ AffineForm AffineForm::union_with(const AffineForm &other) const {
 }
 
 /*
+ * Binary affine comparison operators.
+ */
+bool AffineForm::operator==(const AffineForm &other) const {
+    return _center == other._center && _coefficients == other._coefficients;
+}
+bool AffineForm::operator!=(const AffineForm &other) const {
+    return !operator==(other);
+}
+bool AffineForm::operator<(const AffineForm &other) const {
+    return to_interval() < other.to_interval();
+}
+bool AffineForm::operator<=(const AffineForm &other) const {
+    return to_interval() <= other.to_interval();
+}
+bool AffineForm::operator>(const AffineForm &other) const {
+    return to_interval() > other.to_interval();
+}
+bool AffineForm::operator>=(const AffineForm &other) const {
+    return to_interval() >= other.to_interval();
+}
+
+/*
+ * Scalar comparison operators.
+ */
+bool AffineForm::operator<(double other) const {
+    return to_interval() < other;
+}
+bool AffineForm::operator>(double other) const {
+    return to_interval() > other;
+}
+bool AffineForm::operator<=(double other) const {
+    return to_interval() <= other;
+}
+bool AffineForm::operator>=(double other) const {
+    return to_interval() >= other;
+}
+
+/*
  * Scalar arithmetic operators
  */
 AffineForm AffineForm::operator*(double other) const {
@@ -252,22 +290,6 @@ AffineForm AffineForm::operator/(double other) const {
         return { 0, std::unordered_map<noise_symbol_t, double>() };
     }
     return operator*(1 / other);
-}
-
-/*
- * Scalar comparison operators.
- */
-bool AffineForm::operator<(double other) const {
-    return to_interval() < other;
-}
-bool AffineForm::operator>(double other) const {
-    return to_interval() > other;
-}
-bool AffineForm::operator<=(double other) const {
-    return to_interval() <= other;
-}
-bool AffineForm::operator>=(double other) const {
-    return to_interval() >= other;
 }
 
 /*
@@ -394,25 +416,6 @@ AffineForm AffineForm::inv() const {
 
     // New noise term will be radius of mini-range interval.
     return approximate_affine_form(alpha, zeta, range.radius());
-}
-
-/*
- * Public helpers
- */
-bool AffineForm::operator==(const AffineForm &other) const {
-    if (this->_center != other._center) {
-        return false;
-    }
-    if (this->_coefficients.size() != other._coefficients.size()) {
-        return false;
-    }
-    for (auto [symbol, coeff] : this->_coefficients) {
-        // Note: if a coeff is not present, this will return NaN.
-        if (other.coeff_of(symbol) != coeff) {
-            return false;
-        }
-    }
-    return true;
 }
 
 /*
