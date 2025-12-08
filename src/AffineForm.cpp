@@ -216,17 +216,11 @@ AffineForm AffineForm::pow(uint32_t power) const {
     return result;
 }
 AffineForm AffineForm::union_with(const AffineForm &other) const {
-    auto result = clone();
-
-    for (auto [symbol, coeff] : other._coefficients) {
-        if (!result._coefficients.contains(symbol)) {
-            result._coefficients[symbol] = coeff;
-        } else {
-            // Add coefficients for shared symbols
-            result._coefficients[symbol] += coeff;
-        }
-    }
-    return result;
+    auto interval1 = this->to_interval();
+    auto interval2 = other.to_interval();
+    auto union_interval = interval1.union_with(interval2);
+    // Notice the loss of dependence information here.
+    return AffineForm(union_interval);
 }
 
 /*
