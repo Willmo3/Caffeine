@@ -121,18 +121,12 @@ public:
      * @return the union of the interval bounds of this affine form and the other.
      */
     AffineForm union_with(const AffineForm &other) const;
-
-    template<uint32_t N>
-    std::array<AffineForm, N> split() const {
-        auto interval_split = to_interval().split<N>();
-        auto affine_split = std::array<AffineForm, N>{};
-
-        for (auto i = 0; i < interval_split.size(); i++) {
-            affine_split[i] = AffineForm(interval_split[i]);
-        }
-
-        return affine_split;
-    }
+    /**
+     *
+     * @param n_splits Number of sub-intervals to split this affine form into.
+     * @return New affine forms from each of the split intervals.
+     */
+    std::vector<AffineForm> split(uint32_t n_splits) const;
 
     /*
      * Relational operations
