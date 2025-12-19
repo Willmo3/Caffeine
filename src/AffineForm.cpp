@@ -7,7 +7,6 @@
 #include <chrono>
 #include <cmath>
 #include <cstring>
-#include <format>
 #include <iostream>
 #include <map>
 #include <numeric>
@@ -226,7 +225,7 @@ std::vector<AffineForm> AffineForm::split(uint32_t n_splits) const {
     if (n_splits == 0) {
         throw std::invalid_argument("Cannot split into zero intervals.");
     }
-    
+
     auto interval = to_interval();
     auto split_intervals = interval.split(n_splits);
     std::vector<AffineForm> result_forms;
