@@ -4,13 +4,11 @@
 
 #ifndef CAFFEINE_AFFINEFORM_H
 #define CAFFEINE_AFFINEFORM_H
+#include <cstdint>
 #include <unordered_map>
 #include <vector>
 
 #include "Winterval/Winterval.hpp"
-// Note: cereal root must be in the build path
-#include "cereal/archives/json.hpp"
-#include "cereal/types/unordered_map.hpp"
 
 // Print time profiling of expensive functions.
 // #define AFFINE_TIME_MULT
@@ -171,16 +169,6 @@ public:
     AffineForm operator+(double other) const;
     AffineForm operator-(double other) const;
     AffineForm operator/(double other) const;
-
-    /*
-     * Serialization helpers.
-     */
-    template<class Archive>
-    void serialize(Archive & archive)
-    {
-        archive( cereal::make_nvp("center", _center), cereal::make_nvp("noise_symbols", _coefficients) );
-    }
-
     /*
      * Assorted helpers
      */
