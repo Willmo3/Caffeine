@@ -329,10 +329,16 @@ std::string AffineForm::to_string() const {
 double AffineForm::center() const {
     return _center;
 }
-
 double AffineForm::radius() const {
     return std::accumulate(_coefficients.begin(), _coefficients.end(), 0.0,
         [](auto sum, auto pair) { return sum + std::abs(pair.second); });
+}
+
+double AffineForm::min() const {
+    return to_interval().min();
+}
+double AffineForm::max() const {
+    return to_interval().max();
 }
 
 double AffineForm::coeff_of(noise_symbol_t symbol) const {
@@ -344,13 +350,10 @@ double AffineForm::coeff_of(noise_symbol_t symbol) const {
 
 Winterval AffineForm::to_interval() const {
     // Note: unable to do accumulation because of behavior with unordered maps.
-    double error_magnitude = 0;
-    for (auto coeff: _coefficients | std::views::values) {
-        error_magnitude += std::abs(coeff);
-    }
+    const double rad = radius();
 
-    auto min = _center - error_magnitude;
-    auto max = _center + error_magnitude;
+    auto min = _center - rad;
+    auto max = _center + rad;
     if (std::isnan(min)) {
         min = INFINITY * -1;
     }

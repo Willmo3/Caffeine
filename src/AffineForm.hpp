@@ -64,6 +64,8 @@ public:
     std::string to_string() const;
     double center() const;
     double radius() const;
+    double min() const;
+    double max() const;
     /**
      *
      * @param symbol Symbol to get coefficient of.
@@ -80,7 +82,6 @@ public:
      * Unary operations
      */
     AffineForm operator-() const;
-
     AffineForm abs() const;
 
     /**
@@ -169,10 +170,6 @@ public:
     AffineForm operator+(double other) const;
     AffineForm operator-(double other) const;
     AffineForm operator/(double other) const;
-    /*
-     * Assorted helpers
-     */
-
 private:
     /*
      * Noise symbol handling
