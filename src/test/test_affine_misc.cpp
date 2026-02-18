@@ -15,3 +15,10 @@ TEST(affine_misc, min_max) {
     ASSERT_NEAR(a.min(), -7, 0.001);
     ASSERT_NEAR(a.max(), -1, 0.001);
 }
+
+TEST(affine_misc, add_noise_symbol) {
+    auto a = AffineForm(Winterval(-2, 3));
+    a.add_noise_symbol(5);
+    ASSERT_NEAR(a.min(), -7, 0.001);
+    ASSERT_NEAR(a.max(), 8, 0.001);
+}

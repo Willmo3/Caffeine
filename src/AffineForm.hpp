@@ -170,6 +170,17 @@ public:
     AffineForm operator+(double other) const;
     AffineForm operator-(double other) const;
     AffineForm operator/(double other) const;
+
+    /*
+     * Explicit modifiers
+     */
+
+     /**
+      * Add a new noise symbol with the given coefficient to this affine form.
+      * Useful for explicitly synthesizing affine polynomials, i.e. in Laurel OOPSLA '25 regression.
+      * @param coeff
+      */
+     void add_noise_symbol(double coeff);
 private:
     /*
      * Noise symbol handling

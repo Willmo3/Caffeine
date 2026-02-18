@@ -308,6 +308,13 @@ AffineForm AffineForm::operator/(double other) const {
 }
 
 /*
+ * Explicit modifiers
+ */
+void AffineForm::add_noise_symbol(double coeff) {
+    _coefficients.insert({new_noise_symbol(), coeff});
+}
+
+/*
  * Accessors
  */
 std::string AffineForm::to_string() const {
