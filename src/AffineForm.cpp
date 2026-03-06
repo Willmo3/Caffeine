@@ -43,7 +43,7 @@ AffineForm::AffineForm(double center, const std::unordered_map<noise_symbol_t, d
         collapse();
     }
 }
-AffineForm::AffineForm(const Winterval& interval): _center((interval.min() + interval.max()) / 2),
+AffineForm::AffineForm(const Winterval &interval): _center((interval.min() + interval.max()) / 2),
     _coefficients(std::unordered_map<noise_symbol_t, double>()) {
     _coefficients.insert(std::pair(new_noise_symbol(), (interval.min() - interval.max()) / 2));
 }
@@ -466,7 +466,7 @@ void AffineForm::collapse() {
 /*
  * Associated operators.
  */
-std::ostream& operator<<(std::ostream& os, AffineForm rhs) {
+std::ostream& operator<<(std::ostream &os, AffineForm rhs) {
     os << "a" << rhs.to_interval();
     return os;
 }

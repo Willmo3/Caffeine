@@ -2,6 +2,9 @@
 // Created by will on 9/23/25.
 //
 
+// TODO: improve noise elision heuristics
+// TODO: more meaningfully capturing source of errors w/ synthesized form?
+
 #ifndef CAFFEINE_AFFINEFORM_H
 #define CAFFEINE_AFFINEFORM_H
 #include <cstdint>
@@ -240,11 +243,7 @@ private:
     std::unordered_map<noise_symbol_t, double> _coefficients;
 };
 
-// AffineForm::noise_symbol_t AffineForm::max_noise_symbol = 0;
-
-// Using reference to remove redundant copy.
-// TODO: reflect this change elsewhere.
-std::ostream& operator<<(std::ostream& os, AffineForm rhs);
+std::ostream& operator<<(std::ostream &os, AffineForm rhs);
 
 
 #endif //CAFFEINE_AFFINEFORM_H
